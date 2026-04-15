@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murray's Electrical Ltd. | Electrician in Dunstable, Bedfordshire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--orange:#F27A1A;--orange-soft:rgba(242,122,26,0.08);--orange-border:rgba(242,122,26,0.25);--orange-glow:rgba(242,122,26,0.15);--green:#4ADE80;--green-glow:rgba(74,222,128,0.5);--f-display:'Outfit',sans-serif;--f-body:'DM Sans',sans-serif;--f-mono:'JetBrains Mono',monospace}
+[data-theme="light"]{--bg:#FAFAF9;--surface:#FFFFFF;--card:#F5F5F3;--border:rgba(0,0,0,0.08);--text:#1A1A1A;--text-secondary:#555;--text-dim:rgba(0,0,0,0.35);--grid-line:rgba(0,0,0,0.04);--nav-bg:rgba(255,255,255,0.92);--num-ghost:rgba(242,122,26,0.1);--input-bg:#F5F5F3;--input-focus-bg:#FFFFFF;--tag-bg:rgba(242,122,26,0.06);--tag-border:rgba(242,122,26,0.15);--tag-color:#C85A00;--card-hover-bg:rgba(242,122,26,0.03);--card-hover-border:rgba(242,122,26,0.25);--toggle-icon:"🌙"}
+[data-theme="dark"]{--bg:#0C0C0E;--surface:#141416;--card:#1A1A1E;--border:rgba(255,255,255,0.06);--text:#FFFFFF;--text-secondary:rgba(255,255,255,0.5);--text-dim:rgba(255,255,255,0.3);--grid-line:rgba(255,255,255,0.04);--nav-bg:rgba(12,12,14,0.92);--num-ghost:rgba(242,122,26,0.12);--input-bg:#1A1A1E;--input-focus-bg:#222226;--tag-bg:rgba(255,255,255,0.06);--tag-border:rgba(255,255,255,0.1);--tag-color:rgba(255,255,255,0.45);--card-hover-bg:rgba(242,122,26,0.04);--card-hover-border:rgba(242,122,26,0.3);--toggle-icon:"☀️"}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);overflow-x:hidden;transition:background .4s,color .4s}
+a{text-decoration:none;color:inherit}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.1s}.reveal.d15{transition-delay:.15s}.reveal.d2{transition-delay:.2s}.reveal.d25{transition-delay:.25s}.reveal.d3{transition-delay:.3s}.reveal.d35{transition-delay:.35s}.reveal.d4{transition-delay:.4s}.reveal.d45{transition-delay:.45s}
+.orange-line{width:0;height:3px;background:var(--orange);border-radius:2px;margin-bottom:24px;transition:width .8s cubic-bezier(.22,1,.36,1)}.orange-line.visible{width:64px}
+
+/* Toggle */
+.theme-toggle{position:fixed;bottom:28px;right:28px;z-index:200;width:52px;height:52px;border-radius:50%;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:background .3s,border-color .3s,transform .2s}
+.theme-toggle:hover{transform:scale(1.08)}
+.theme-toggle::after{content:var(--toggle-icon)}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(24px,5vw,80px);height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s}
+.nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--border)}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logo{height:32px;width:auto;transition:filter .3s}
+[data-theme="dark"] .nav-logo{filter:brightness(0) invert(1)}
+.nav-icon{width:36px;height:36px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center}
+.nav-name{font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:-.01em}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links>a{font-family:var(--f-body);font-size:14px;color:var(--text-secondary);transition:color .2s}
+.nav-links>a:hover{color:var(--text)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;background:var(--orange);font-family:var(--f-display);font-size:14px;font-weight:600;color:#fff!important;transition:transform .2s,box-shadow .2s;box-shadow:0 0 0 0 var(--orange-glow)}
+.nav-cta:hover{transform:scale(1.04);box-shadow:0 8px 32px var(--orange-glow);color:#fff!important}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1300px;margin:0 auto;padding:120px clamp(24px,5vw,80px) 80px;width:100%}
+.hero-grid{position:absolute;inset:0;opacity:.5;pointer-events:none;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:80px 80px}
+.hero-glow{position:absolute;top:-15%;right:-5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--orange-glow) 0%,transparent 70%);pointer-events:none;filter:blur(80px)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:1px solid var(--orange-border);background:var(--orange-soft);margin-bottom:32px}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow)}
+.hero-badge-text{font-family:var(--f-mono);font-size:12px;color:var(--orange);letter-spacing:.03em}
+.hero h1{font-family:var(--f-display);font-size:clamp(44px,6vw,80px);font-weight:800;line-height:.95;letter-spacing:-.03em;margin-bottom:28px}
+.hero h1 em{color:var(--orange);font-style:italic}
+.hero-sub{font-family:var(--f-body);font-size:18px;font-weight:300;color:var(--text-secondary);line-height:1.7;max-width:500px;margin-bottom:40px}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:999px;background:var(--orange);font-family:var(--f-display);font-size:16px;font-weight:600;color:#fff;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px var(--orange-glow)}
+.btn-primary:hover{transform:scale(1.03);box-shadow:0 8px 40px rgba(242,122,26,.3)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:999px;border:1px solid var(--border);background:transparent;font-family:var(--f-display);font-size:16px;font-weight:600;color:var(--text);transition:border-color .2s,background .2s}
+.btn-secondary:hover{border-color:var(--orange-border);background:var(--orange-soft)}
+.hero-img-wrap{border-radius:24px;overflow:hidden;aspect-ratio:3/4;box-shadow:0 32px 80px rgba(0,0,0,0.12);position:relative}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-img-badge{position:absolute;bottom:20px;left:20px;right:20px;padding:16px 20px;border-radius:16px;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;z-index:2}
+[data-theme="dark"] .hero-img-badge{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.12)}
+.hero-img-badge-icon{width:40px;height:40px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-img-badge-text{font-family:var(--f-body);font-size:13px;font-weight:500;line-height:1.4}
+.hero-img-badge-sub{font-family:var(--f-mono);font-size:11px;color:var(--text-secondary);letter-spacing:.02em}
+
+/* Stats */
+.stats{padding:60px clamp(24px,5vw,80px);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stat{text-align:center}.stat-value{font-family:var(--f-display);font-size:48px;font-weight:800;color:var(--orange);line-height:1;margin-bottom:8px}
+.stat-label{font-family:var(--f-body);font-size:14px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.08em}
+
+/* Sections */
+.section{padding:clamp(80px,12vw,160px) clamp(24px,5vw,80px)}.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{font-family:var(--f-mono);font-size:12px;color:var(--orange);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:16px}
+.section-title{font-family:var(--f-display);font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:64px;max-width:600px}
+
+/* Service cards */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.service-card{padding:36px;border-radius:20px;border:1px solid var(--border);background:var(--surface);transition:border-color .3s,background .3s,transform .3s;cursor:default;display:flex;flex-direction:column}
+.service-card:hover{border-color:var(--card-hover-border);background:var(--card-hover-bg);transform:translateY(-4px)}
+.service-icon{width:56px;height:56px;border-radius:14px;background:var(--orange-soft);display:flex;align-items:center;justify-content:center;color:var(--orange);margin-bottom:24px}
+.service-card h3{font-family:var(--f-display);font-size:24px;font-weight:700;margin-bottom:12px}
+.service-card p{font-family:var(--f-body);font-size:15px;font-weight:300;color:var(--text-secondary);line-height:1.65;margin-bottom:24px}
+.service-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.service-tag{padding:5px 12px;border-radius:999px;background:var(--tag-bg);border:1px solid var(--tag-border);font-family:var(--f-mono);font-size:11px;color:var(--tag-color);letter-spacing:.02em}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img{border-radius:24px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 24px 64px rgba(0,0,0,0.08);position:relative}
+.about-img img{width:100%;height:100%;object-fit:cover;display:block}
+.about h2{font-family:var(--f-display);font-size:clamp(32px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:24px}
+.about p{font-family:var(--f-body);font-size:16px;font-weight:300;color:var(--text-secondary);line-height:1.75;margin-bottom:20px}
+.accreditations{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.accreditation{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:var(--card);border:1px solid var(--border);font-family:var(--f-body);font-size:13px;font-weight:500;transition:border-color .2s}
+.accreditation:hover{border-color:var(--orange-border)}
+
+/* Why */
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.why-card{padding:36px;border-radius:20px;background:var(--surface);border:1px solid var(--border);display:flex;gap:24px;align-items:flex-start;transition:border-color .2s}
+.why-card:hover{border-color:var(--card-hover-border)}
+.why-num{font-family:var(--f-display);font-size:42px;font-weight:800;color:var(--num-ghost);line-height:1;flex-shrink:0}
+.why-card h3{font-family:var(--f-display);font-size:20px;font-weight:700;margin-bottom:10px}
+.why-card p{font-family:var(--f-body);font-size:14px;font-weight:300;color:var(--text-secondary);line-height:1.65}
+
+/* CTA */
+.cta-banner{margin:0 clamp(24px,5vw,80px);border-radius:28px;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--orange),#E06510);padding:clamp(60px,8vw,100px) clamp(32px,5vw,80px);text-align:center}
+.cta-banner-grid{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:linear-gradient(rgba(0,0,0,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.15) 1px,transparent 1px);background-size:60px 60px}
+.cta-banner h2{font-family:var(--f-display);font-size:clamp(32px,5vw,52px);font-weight:800;line-height:1.05;letter-spacing:-.02em;color:#fff;margin-bottom:20px;position:relative;z-index:1}
+.cta-banner .cta-p{font-family:var(--f-body);font-size:17px;color:rgba(255,255,255,.8);line-height:1.6;margin:0 auto 36px;max-width:500px;position:relative;z-index:1}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.btn-white{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:999px;background:#fff;font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--orange);transition:transform .2s}.btn-white:hover{transform:scale(1.03)}
+.btn-outline-w{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:999px;border:2px solid rgba(255,255,255,.35);background:transparent;font-family:var(--f-display);font-size:16px;font-weight:700;color:#fff;transition:border-color .2s}.btn-outline-w:hover{border-color:rgba(255,255,255,.6)}
+
+/* Contact */
+.contact-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-card{display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:16px;background:var(--surface);border:1px solid var(--border);transition:border-color .2s;margin-bottom:16px}
+.contact-card:hover{border-color:var(--orange-border)}
+.contact-card-label{font-family:var(--f-mono);font-size:11px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.contact-card-value{font-family:var(--f-body);font-size:15px;font-weight:500}
+.form-wrap{padding:40px;border-radius:24px;background:var(--surface);border:1px solid var(--border)}
+.form-wrap h3{font-family:var(--f-display);font-size:24px;font-weight:700;margin-bottom:8px}
+.form-wrap>p{font-family:var(--f-body);font-size:14px;font-weight:300;color:var(--text-secondary);margin-bottom:28px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-fields{display:flex;flex-direction:column;gap:16px}
+.form-field{width:100%;padding:14px 16px;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;font-family:var(--f-body);font-size:15px;color:var(--text);outline:none;transition:border-color .2s,background .2s}
+.form-field:focus{border-color:rgba(242,122,26,.4);background:var(--input-focus-bg)}
+.form-field::placeholder{color:var(--text-dim)}
+select.form-field{appearance:none;cursor:pointer;color:var(--text-secondary)}
+textarea.form-field{resize:vertical;min-height:100px;line-height:1.6}
+.form-submit{width:100%;padding:15px 0;border-radius:999px;border:none;background:var(--orange);font-family:var(--f-display);font-size:16px;font-weight:700;letter-spacing:.06em;color:#fff;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.form-submit:hover{transform:scale(1.02);box-shadow:0 8px 32px var(--orange-glow)}
+
+.footer{padding:40px clamp(24px,5vw,80px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-logo{height:28px;width:auto;transition:filter .3s}
+[data-theme="dark"] .footer-logo{filter:brightness(0) invert(1)}
+.footer p{font-family:var(--f-body);font-size:12px;color:var(--text-dim)}
+
+@media(max-width:960px){
+  .hero-layout{grid-template-columns:1fr;gap:40px;padding-top:100px}
+  .hero-image{order:-1;max-width:400px;margin:0 auto}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+  .services-grid,.why-grid{grid-template-columns:1fr}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:48px}
+  .nav-links>a:not(.nav-cta){display:none}
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"></button>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand"><img src="https://static.wixstatic.com/media/81a429_5aa9d109b13b44ea9e1d9f0fda265e86~mv2.png/v1/fill/w_700,h_212,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/MURRAYS_V2_BLK_ORNG_RGB.png" alt="Murray's Electrical" class="nav-logo"></div>
+  <div class="nav-links"><a href="#services">Services</a><a href="#about">About</a><a href="#why">Why Us</a><a href="#contact">Contact</a><a href="tel:07943835220" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> 07943 835220</a></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div><div class="hero-glow"></div>
+  <div class="hero-layout">
+    <div class="hero-content">
+      <div class="reveal"><div class="hero-badge"><span class="hero-badge-dot"></span><span class="hero-badge-text">NICEIC APPROVED · EST. DUNSTABLE</span></div></div>
+      <div class="reveal d2"><h1>Electrical work<br>you can <em>trust.</em></h1></div>
+      <div class="reveal d35"><p class="hero-sub">Commercial, industrial, and domestic electrical installations across Bedfordshire. Family run. Fully certified. Built on reputation.</p></div>
+      <div class="reveal d45"><div class="hero-btns"><a href="#contact" class="btn-primary">Get a Free Quote <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a href="#services" class="btn-secondary">Our Services</a></div></div>
+    </div>
+    <div class="hero-image reveal d3">
+      <div class="hero-img-wrap">
+        <img src="https://static.wixstatic.com/media/829fff_6f86fc6521d24a8eb15ac1dfc8c345ed~mv2.jpg/v1/fill/w_800,h_1000,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/829fff_6f86fc6521d24a8eb15ac1dfc8c345ed~mv2.jpg" alt="Murray's Electrical work" loading="eager">
+        <div class="hero-img-badge"><div class="hero-img-badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="hero-img-badge-text">NICEIC Approved Contractor</div><div class="hero-img-badge-sub">Registration #618007000</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div class="reveal stat"><div class="stat-value" data-target="15" data-suffix="+">0</div><div class="stat-label">Years Experience</div></div>
+    <div class="reveal d1 stat"><div class="stat-value" data-target="500" data-suffix="+">0</div><div class="stat-label">Projects Completed</div></div>
+    <div class="reveal d2 stat"><div class="stat-value" data-target="100" data-suffix="%">0</div><div class="stat-label">Fully Certified</div></div>
+    <div class="reveal d3 stat"><div class="stat-value" data-target="24" data-suffix="/7">0</div><div class="stat-label">Emergency Support</div></div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-tag">What We Do</span></div>
+    <div class="reveal d1 orange-line"></div>
+    <div class="reveal d15"><h2 class="section-title">Electrical solutions for every scale.</h2></div>
+    <div class="services-grid">
+      <div class="reveal d2 service-card"><div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg></div><h3>Commercial</h3><p>Complete electrical installations for offices, retail, warehouses, and commercial builds. From power distribution to lighting design, fully project managed.</p><div class="service-tags"><span class="service-tag">Power Distribution</span><span class="service-tag">Lighting Design</span><span class="service-tag">Data Cabling</span><span class="service-tag">Fire Alarm Systems</span></div></div>
+      <div class="reveal d3 service-card"><div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Domestic</h3><p>Kitchens, bathrooms, rewires, loft conversions, and garage conversions. We treat your home with respect and leave it spotless.</p><div class="service-tags"><span class="service-tag">Full Rewires</span><span class="service-tag">Kitchen Installations</span><span class="service-tag">EV Charger Fitting</span><span class="service-tag">Consumer Unit Upgrades</span></div></div>
+      <div class="reveal d4 service-card"><div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><h3>Industrial</h3><p>Heavy duty installations for factories, plants, and industrial facilities. Three phase power, motor controls, and large scale distribution.</p><div class="service-tags"><span class="service-tag">Three Phase Power</span><span class="service-tag">Motor Controls</span><span class="service-tag">Emergency Lighting</span><span class="service-tag">Periodic Testing</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section" style="border-top:1px solid var(--border)">
+  <div class="section-inner"><div class="about-grid">
+    <div class="reveal about-img"><img src="https://static.wixstatic.com/media/829fff_02589ce7ed4345d9beb0367613b87c3c~mv2.jpg/v1/fill/w_900,h_675,fp_0.50_0.50,q_85,enc_avif,quality_auto/829fff_02589ce7ed4345d9beb0367613b87c3c~mv2.jpg" alt="Murray's Electrical project" loading="lazy"></div>
+    <div class="about">
+      <div class="reveal"><span class="section-tag">About Us</span></div>
+      <div class="reveal d1 orange-line"></div>
+      <div class="reveal d15"><h2>A family business built on doing things right.</h2></div>
+      <div class="reveal d2"><p>Murray's Electrical Ltd. is a family run business based in Bedfordshire with a first class reputation for electrical installations. Whether we are working for a business or in a family home, we understand how our quality and performance affects the customer.</p></div>
+      <div class="reveal d25"><p>We comprehensively cover commercial, industrial, and residential projects and we pride ourselves in providing you with the best possible experience with regards to your electrical needs.</p></div>
+      <div class="reveal d3 accreditations"><div class="accreditation"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F27A1A" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> NICEIC Approved</div><div class="accreditation"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F27A1A" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Construction Online Gold</div><div class="accreditation"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F27A1A" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Fully Insured</div></div>
+    </div>
+  </div></div>
+</section>
+
+<section id="why" class="section" style="border-top:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-tag">Why Murray's</span></div>
+    <div class="reveal d1 orange-line"></div>
+    <div class="reveal d15"><h2 class="section-title" style="max-width:500px">The details that matter.</h2></div>
+    <div class="why-grid">
+      <div class="reveal why-card"><span class="why-num">01</span><div><h3>Certified & Insured</h3><p>NICEIC approved contractor. Every job comes with full certification and is covered by our comprehensive insurance.</p></div></div>
+      <div class="reveal d1 why-card"><span class="why-num">02</span><div><h3>Clean & Professional</h3><p>We leave your property exactly as we found it. Dust sheets down, rubbish removed, and everything tested before we leave.</p></div></div>
+      <div class="reveal d2 why-card"><span class="why-num">03</span><div><h3>Transparent Pricing</h3><p>No hidden costs. You get a detailed quote upfront and we stick to it. If anything changes, you will know before we proceed.</p></div></div>
+      <div class="reveal d3 why-card"><span class="why-num">04</span><div><h3>Aftercare Guarantee</h3><p>Our work is guaranteed. If something is not right, we come back and fix it. That is our promise and our reputation depends on it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-banner-grid"></div>
+  <div class="reveal"><h2>Need an electrician you can rely on?</h2><p class="cta-p">Get in touch for a free, no obligation quote. We cover Dunstable, Luton, and the whole of Bedfordshire.</p><div class="cta-btns"><a href="tel:07943835220" class="btn-white"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call Now</a><a href="mailto:murrayelec54@gmail.com" class="btn-outline-w">Email Us</a></div></div>
+</section>
+
+<section id="contact" class="section">
+  <div class="contact-grid">
+    <div>
+      <div class="reveal"><span class="section-tag">Contact</span></div>
+      <div class="reveal d1 orange-line"></div>
+      <div class="reveal d15"><h2 style="font-family:var(--f-display);font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:40px">Get in touch.</h2></div>
+      <div class="reveal d2">
+        <a href="tel:07943835220" class="contact-card"><span style="font-size:24px">📞</span><div><div class="contact-card-label">Phone</div><div class="contact-card-value">07943 835220</div></div></a>
+        <a href="mailto:murrayelec54@gmail.com" class="contact-card"><span style="font-size:24px">✉️</span><div><div class="contact-card-label">Email</div><div class="contact-card-value">murrayelec54@gmail.com</div></div></a>
+        <div class="contact-card"><span style="font-size:24px">📍</span><div><div class="contact-card-label">Address</div><div class="contact-card-value">10 Conger Lane, Toddington, Dunstable, LU5 6BT</div></div></div>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="form-wrap"><h3>Request a Quote</h3><p>Tell us about your project and we will get back to you within 24 hours.</p>
+        <div class="form-fields">
+          <div class="form-row"><input class="form-field" placeholder="Name"><input class="form-field" placeholder="Phone"></div>
+          <input class="form-field" type="email" placeholder="Email">
+          <select class="form-field"><option value="">Type of work needed</option><option>Commercial Installation</option><option>Domestic Installation</option><option>Industrial Installation</option><option>Inspection & Testing</option><option>Emergency Call Out</option><option>Other</option></select>
+          <textarea class="form-field" placeholder="Tell us about your project..." rows="4"></textarea>
+          <button class="form-submit" onclick="this.textContent='✓ REQUEST SENT';this.style.background='#4ADE80';setTimeout(()=>{this.textContent='SEND REQUEST';this.style.background=''},3000)">SEND REQUEST</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand"><img src="https://static.wixstatic.com/media/81a429_5aa9d109b13b44ea9e1d9f0fda265e86~mv2.png/v1/fill/w_700,h_212,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/MURRAYS_V2_BLK_ORNG_RGB.png" alt="Murray's Electrical" class="footer-logo"></div>
+  <p>NICEIC Approved · Reg. 618007000 · Construction Online Gold · Reg. 1323196</p>
+  <p>© 2026 Murray's Electrical Ltd. All rights reserved.</p>
+  <p><a href="https://shanebell.dev" style="color:var(--orange);font-weight:500">Designed by Shane Bell</a></p>
+</footer>
+
+<script>
+function toggleTheme(){var h=document.documentElement,n=h.getAttribute('data-theme')==='light'?'dark':'light';h.setAttribute('data-theme',n);localStorage.setItem('theme',n)}
+(function(){var s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s)})();
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal,.orange-line').forEach(function(el){obs.observe(el)});
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60)},{passive:true});
+var cObs=new IntersectionObserver(function(e){e.forEach(function(x){if(!x.isIntersecting)return;var el=x.target,t=+el.dataset.target,s=el.dataset.suffix||'',dur=1800,st=performance.now();(function step(n){var p=Math.min((n-st)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,3))*t)+s;if(p<1)requestAnimationFrame(step)})(st);cObs.unobserve(el)})},{threshold:.3});
+document.querySelectorAll('.stat-value').forEach(function(el){cObs.observe(el)});
+</script>
+</body>
+</html>
