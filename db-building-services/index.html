@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DB Building Services Ltd — Trusted Builders in Luton &amp; Hertfordshire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown:       #1c1a19;
+      --brown-mid:   #3f3521;
+      --gold:        #B8892A;
+      --gold-light:  #d4a845;
+      --cream:       #f2ece9;
+      --cream2:      #e8e0db;
+      --card-bg:     #ffffff;
+      --text:        #1c1a19;
+      --text-muted:  #6b625d;
+      --border:      rgba(28,26,25,0.1);
+      --nav-bg:      rgba(242,236,233,0.96);
+      --shadow:      0 4px 40px rgba(28,26,25,0.1);
+    }
+
+    [data-theme="dark"] {
+      --cream:      #1c1a19;
+      --cream2:     #252220;
+      --card-bg:    #2c2927;
+      --text:       #f2ece9;
+      --text-muted: #a09890;
+      --border:     rgba(242,236,233,0.1);
+      --nav-bg:     rgba(28,26,25,0.96);
+      --shadow:     0 4px 40px rgba(0,0,0,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; line-height: 1.12; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+    /* === REVEAL ANIMATIONS === */
+    .reveal       { opacity: 0; transform: translateY(32px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal-left  { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+    /* === NAV === */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 74px; max-width: 1180px; margin: 0 auto; padding: 0 28px;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--text); line-height: 1.1;
+    }
+    .nav-logo span { display: block; font-size: 11px; font-family: 'DM Sans', sans-serif; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-top: 1px; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; letter-spacing: 0.03em; color: var(--text); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-cta {
+      background: var(--brown); color: #f2ece9 !important; padding: 11px 26px;
+      border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--brown-mid); transform: translateY(-1px); }
+    .theme-toggle {
+      background: none; border: 1.5px solid var(--border); border-radius: 4px;
+      width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; transition: background 0.2s;
+    }
+    .theme-toggle:hover { background: var(--border); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: var(--nav-bg); backdrop-filter: blur(16px);
+      padding: 0 28px 24px; border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 14px 0; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); color: var(--text); }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* === HERO === */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24dd13a2e2fe87ab890.jpg');
+      background-size: cover; background-position: center;
+      animation: heroZoom 16s ease-in-out infinite alternate;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.0); }
+      to   { transform: scale(1.07); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(110deg, rgba(28,26,25,0.88) 0%, rgba(28,26,25,0.6) 55%, rgba(63,53,33,0.2) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 700px;
+      padding: 140px 28px 100px;
+      margin: 0 0 0 max(28px, calc((100vw - 1180px) / 2));
+    }
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light);
+      margin-bottom: 26px; animation: fadeUp 0.8s ease both;
+    }
+    .hero-kicker::before { content: ''; width: 28px; height: 1.5px; background: var(--gold-light); }
+    .hero h1 {
+      font-size: clamp(42px, 6.5vw, 80px); font-weight: 700; color: #f2ece9;
+      line-height: 1.05; margin-bottom: 28px; animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-light); }
+    .hero-sub {
+      font-size: 17px; color: rgba(242,236,233,0.78); line-height: 1.75;
+      max-width: 500px; margin-bottom: 44px; animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.8s 0.45s ease both; }
+    .btn-primary {
+      background: var(--gold); color: #1c1a19; padding: 15px 38px; border-radius: 4px;
+      font-size: 14px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(184,137,42,0.4);
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,137,42,0.5); }
+    .btn-ghost {
+      background: rgba(242,236,233,0.1); color: #f2ece9; padding: 15px 38px; border-radius: 4px;
+      font-size: 14px; font-weight: 600; border: 1.5px solid rgba(242,236,233,0.35);
+      display: inline-flex; align-items: center; gap: 10px; letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { background: rgba(242,236,233,0.18); transform: translateY(-2px); }
+    .hero-fmb {
+      position: absolute; bottom: 40px; right: max(40px, calc((100vw - 1180px) / 2 + 28px));
+      z-index: 2; display: flex; align-items: center; gap: 14px;
+      background: rgba(28,26,25,0.7); backdrop-filter: blur(8px);
+      border: 1px solid rgba(184,137,42,0.4); border-radius: 8px; padding: 14px 22px;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+    .fmb-icon { width: 40px; height: 40px; background: var(--gold); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .fmb-text strong { display: block; font-size: 13px; font-weight: 700; color: #f2ece9; }
+    .fmb-text span { font-size: 11px; color: rgba(242,236,233,0.6); letter-spacing: 0.06em; text-transform: uppercase; }
+    .hero-scroll {
+      position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2;
+      animation: bounce 2.4s infinite;
+    }
+    .hero-scroll span { font-size: 11px; color: rgba(242,236,233,0.45); letter-spacing: 0.12em; text-transform: uppercase; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(9px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* === STATS STRIP === */
+    .stats-strip { background: var(--brown); padding: 56px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+    .stat-item { text-align: center; padding: 0 24px; border-right: 1px solid rgba(242,236,233,0.12); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 12px; color: rgba(242,236,233,0.65); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* === SECTION COMMON === */
+    section { padding: 104px 0; }
+    .section-eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .section-title { font-size: clamp(30px, 4vw, 48px); font-weight: 700; color: var(--text); margin-bottom: 20px; }
+    .section-body { font-size: 16px; color: var(--text-muted); line-height: 1.8; max-width: 560px; }
+
+    /* === SERVICES === */
+    .services { background: var(--cream2); }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; gap: 32px; flex-wrap: wrap; }
+    .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); overflow: hidden; border-radius: 8px; }
+    .service-card {
+      background: var(--card-bg); padding: 40px 36px; position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .service-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold); transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+    }
+    .service-card:hover { background: var(--cream); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 18px; transition: color 0.3s; }
+    .service-card:hover .service-num { color: rgba(184,137,42,0.2); }
+    .service-card h3 { font-size: 21px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+    .service-card p { font-size: 14px; color: var(--text-muted); line-height: 1.72; }
+    .service-tag {
+      display: inline-block; margin-top: 18px; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold);
+      border-bottom: 1.5px solid var(--gold); padding-bottom: 2px;
+    }
+
+    /* === ABOUT / SPLIT === */
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-main { width: 100%; border-radius: 6px; object-fit: cover; aspect-ratio: 4/5; }
+    .about-img-inset {
+      position: absolute; bottom: -24px; right: -24px;
+      width: 48%; border-radius: 6px; border: 4px solid var(--cream);
+      box-shadow: 0 12px 40px rgba(28,26,25,0.18);
+    }
+    .about-years {
+      position: absolute; top: 28px; left: -20px;
+      background: var(--gold); color: #1c1a19; border-radius: 6px;
+      padding: 18px 22px; text-align: center; box-shadow: 0 8px 28px rgba(184,137,42,0.4);
+    }
+    .about-years strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 700; line-height: 1; }
+    .about-years span { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+    .fmb-badge {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--card-bg); border: 1.5px solid var(--gold);
+      border-radius: 8px; padding: 18px 22px; margin-top: 32px;
+      box-shadow: var(--shadow);
+    }
+    .fmb-badge-icon { width: 48px; height: 48px; background: var(--gold); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .fmb-badge-text strong { display: block; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .fmb-badge-text span { font-size: 13px; color: var(--text-muted); }
+    .about-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .about-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: var(--text-muted); }
+    .about-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* === GALLERY === */
+    .gallery { background: var(--brown); padding: 104px 0; }
+    .gallery .section-title { color: #f2ece9; }
+    .gallery .section-eyebrow { color: var(--gold-light); }
+    .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 24px; }
+    .gallery-sub { font-size: 16px; color: rgba(242,236,233,0.6); line-height: 1.75; max-width: 420px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: 300px 220px; gap: 12px; }
+    .gallery-item { border-radius: 6px; overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,26,25,0.55), transparent); opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* === TRUST === */
+    .trust { background: var(--cream2); }
+    .trust-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .trust-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+    .trust-item { display: flex; align-items: flex-start; gap: 18px; padding: 22px 24px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border); transition: border-color 0.2s; }
+    .trust-item:hover { border-color: var(--gold); }
+    .trust-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--gold); flex-shrink: 0; line-height: 1; margin-top: 4px; }
+    .trust-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 5px; }
+    .trust-text p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .trust-reviews { display: flex; flex-direction: column; gap: 20px; }
+    .review-card { background: var(--card-bg); border-radius: 8px; padding: 26px 28px; border: 1px solid var(--border); }
+    .review-stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 12px; }
+    .review-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
+    .review-author { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+
+    /* === CONTACT === */
+    .contact { background: var(--cream); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 72px; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 28px; }
+    .contact-item { display: flex; align-items: flex-start; gap: 18px; }
+    .contact-icon { width: 50px; height: 50px; background: rgba(184,137,42,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid rgba(184,137,42,0.2); }
+    .contact-item h4 { font-size: 12px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-muted); }
+    .contact-item p, .contact-item a { font-size: 16px; color: var(--text); font-weight: 500; display: block; }
+    .contact-item a:hover { color: var(--gold); }
+    .contact-form { background: var(--card-bg); border-radius: 10px; padding: 44px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .form-group input, .form-group textarea, .form-group select {
+      background: var(--cream); border: 1.5px solid var(--border); border-radius: 6px;
+      padding: 13px 16px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text); transition: border-color 0.2s; outline: none; resize: vertical;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 120px; }
+    .form-submit {
+      grid-column: span 2; background: var(--brown); color: #f2ece9; border: none;
+      border-radius: 6px; padding: 16px; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 6px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .form-submit:hover { background: var(--brown-mid); transform: translateY(-2px); }
+
+    /* === FOOTER === */
+    footer { background: #111010; color: rgba(242,236,233,0.55); padding: 72px 0 36px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 56px; margin-bottom: 56px; }
+    .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #f2ece9; margin-bottom: 5px; }
+    .footer-brand-sub { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+    .footer-brand p { font-size: 14px; line-height: 1.78; max-width: 300px; margin-bottom: 20px; }
+    .footer-brand a { color: var(--gold-light); font-weight: 700; font-size: 17px; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f2ece9; margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .footer-col li a { font-size: 14px; transition: color 0.2s; }
+    .footer-col li a:hover { color: var(--gold-light); }
+    .footer-bottom { border-top: 1px solid rgba(242,236,233,0.07); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 13px; }
+    .footer-bottom a { color: var(--gold); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-content { margin: 0; max-width: 100%; }
+      .hero-fmb { display: none; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+      .stat-item { border-right: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-years { display: none; }
+      .about-img-inset { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+      .gallery-item:nth-child(1) { grid-column: span 1; }
+      .trust-inner { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 68px 0; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full, .form-submit { grid-column: span 1; }
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      DB Building Services
+      <span>Est. 85+ Years &mdash; Luton &amp; Hertfordshire</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <a href="tel:07398552737" class="nav-cta">Call Us</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#about">About Us</a>
+    <a href="#gallery">Projects</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:07398552737" style="color:#B8892A;">📞 07398 552737</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-kicker">Federation of Master Builders Member</div>
+    <h1>Built on 85 Years of <em>Trust</em></h1>
+    <p class="hero-sub">DB Building Services delivers exceptional residential and commercial building work across Luton, Harpenden, and Hertfordshire. Quality craftsmanship, from first brick to final finish.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Get a Free Quote
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="tel:07398552737" class="btn-ghost">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 010 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16v.92z"/></svg>
+        07398 552737
+      </a>
+    </div>
+  </div>
+  <div class="hero-fmb">
+    <div class="fmb-icon">🏅</div>
+    <div class="fmb-text">
+      <strong>FMB Accredited Member</strong>
+      <span>Federation of Master Builders</span>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="20" height="20" fill="none" stroke="rgba(242,236,233,0.4)" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="85">0</span>+</div>
+        <div class="stat-label">Years Combined Experience</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="600">0</span>+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="2">0</span></div>
+        <div class="stat-label">Counties Covered</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="100">0</span>%</div>
+        <div class="stat-label">FMB Accredited</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <span class="section-eyebrow">What We Build</span>
+        <h2 class="section-title reveal">Every Project,<br>Done Right</h2>
+      </div>
+      <p class="section-body reveal">From a kitchen extension to a full commercial conversion, DB Building Services brings the same rigour and care to every job &mdash; residential or commercial, large or small.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <h3>General Building Work</h3>
+        <p>Brickwork, blockwork, structural alterations, and general maintenance handled by an experienced team with decades of on site knowledge.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <h3>Renovations &amp; Extensions</h3>
+        <p>Single storey, double storey, and wrap around extensions designed to blend seamlessly with your existing property and maximise your living space.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <h3>Commercial Building Work</h3>
+        <p>Pub conversions, retail fit outs, office refurbishments, and commercial property extensions delivered on time and built to last.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <h3>Residential Projects</h3>
+        <p>New builds, full property renovations, and residential conversions managed from groundwork through to handover with zero compromise on quality.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <h3>Property Extensions</h3>
+        <p>Commercial property extensions in Luton and the wider Bedfordshire area, including planning support and full project management.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <h3>Damage Repairs</h3>
+        <p>Structural and cosmetic damage repairs carried out quickly and to the highest standard, restoring your property to its original condition.</p>
+        <span class="service-tag">Enquire &rarr;</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img-wrap reveal-left">
+        <img class="about-img-main" src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24d25530f1acdfaa60b.jpg" alt="DB Building Services team at work">
+        <img class="about-img-inset" src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24d6961290ee2195f02.jpg" alt="DB Building Services project">
+        <div class="about-years">
+          <strong>85+</strong>
+          <span>Years of<br>Excellence</span>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <span class="section-eyebrow">About Us</span>
+        <h2 class="section-title">Trusted Builders Across<br>Bedfordshire &amp; Hertfordshire</h2>
+        <p class="section-body">DB Building Services brings together over 85 years of combined experience in delivering reliable, high quality building work. We serve homeowners, landlords, and commercial clients across Luton, Harpenden, St Albans, and the surrounding counties.</p>
+        <p class="section-body" style="margin-top:16px;">Every project &mdash; no matter the size &mdash; is managed with full transparency, clear communication, and an uncompromising focus on the finished result. We are proud members of the Federation of Master Builders, and every job we take on reflects that standard.</p>
+
+        <div class="fmb-badge">
+          <div class="fmb-badge-icon">🏅</div>
+          <div class="fmb-badge-text">
+            <strong>Federation of Master Builders Member</strong>
+            <span>Independently vetted &mdash; quality and integrity assured</span>
+          </div>
+        </div>
+
+        <ul class="about-list">
+          <li>Free no obligation quotes with in person site visits</li>
+          <li>Full project management from groundwork to handover</li>
+          <li>Residential and commercial work across 2 counties</li>
+          <li>Direct line &mdash; 07398 552737 &mdash; always answered</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-header">
+      <div>
+        <span class="section-eyebrow">Our Projects</span>
+        <h2 class="section-title reveal">Work That Speaks<br>For Itself</h2>
+      </div>
+      <p class="gallery-sub reveal">A selection of recent residential and commercial projects across Luton and Hertfordshire.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24dd13a2e2fe87ab890.jpg" alt="Building project by DB Building Services" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24d6961290ee2195f02.jpg" alt="DB Building Services renovation" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24d25530f1acdfaa60b.jpg" alt="DB Building Services construction" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24dd13a2e2fe87ab890.jpg" alt="Residential project Luton" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://storage.googleapis.com/msgsndr/Cc4f5fnq6HLTdFfbQKfC/media/690dc24d6961290ee2195f02.jpg" alt="Commercial building work Hertfordshire" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST SIGNALS -->
+<section class="trust" id="trust">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="reveal-left">
+        <span class="section-eyebrow">Why Choose Us</span>
+        <h2 class="section-title" style="margin-bottom:36px;">85 Years of Reasons<br>to Trust Us</h2>
+        <ul class="trust-list">
+          <li class="trust-item">
+            <span class="trust-num">01</span>
+            <div class="trust-text">
+              <h4>FMB Accredited</h4>
+              <p>As a Federation of Master Builders member, we are independently vetted for quality, professionalism, and financial stability. It is not a badge anyone can buy.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <span class="trust-num">02</span>
+            <div class="trust-text">
+              <h4>Over 85 Years of Combined Experience</h4>
+              <p>Our team has seen and solved every challenge a building project can throw up. That depth of knowledge saves you time and money on every job.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <span class="trust-num">03</span>
+            <div class="trust-text">
+              <h4>Residential &amp; Commercial Specialists</h4>
+              <p>We handle everything from single storey home extensions to full commercial pub and retail conversions across Bedfordshire and Hertfordshire.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <span class="trust-num">04</span>
+            <div class="trust-text">
+              <h4>Always Contactable</h4>
+              <p>Call 07398 552737 or 01582 235320 and you will speak directly to us &mdash; not a call centre, not an answering machine.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="trust-reviews reveal-right">
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;DB Building Services transformed our tired Victorian terrace into something we are genuinely proud of. The team was professional, tidy, and kept us informed throughout. Outstanding work.&rdquo;</p>
+          <span class="review-author">Mark H. &mdash; Harpenden</span>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;We used DB for a full commercial fit out. From planning to handover the project ran without a hitch. Their experience really shows &mdash; nothing fazed them. Would use again without hesitation.&rdquo;</p>
+          <span class="review-author">Claire T. &mdash; Luton</span>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;Rear extension done on time, on budget, and looking incredible. The FMB accreditation gave us confidence before we even met them and the work more than backed it up.&rdquo;</p>
+          <span class="review-author">Gemma R. &mdash; St Albans</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <span class="section-eyebrow">Get in Touch</span>
+    <h2 class="section-title reveal" style="margin-bottom:56px;">Start Your Project<br>Today</h2>
+    <div class="contact-inner">
+      <div class="contact-info reveal-left">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:07398552737">07398 552737</a>
+            <a href="tel:01582235320">01582 235320</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:dbbuildingservices44@gmail.com">dbbuildingservices44@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>1 Kirkdale Road<br>Harpenden, AL5 2PT</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏅</div>
+          <div>
+            <h4>Accreditation</h4>
+            <p>Federation of Master Builders<br>Verified &amp; Accredited Member</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" placeholder="John">
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" placeholder="Smith">
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="07700 900000">
+            </div>
+            <div class="form-group full">
+              <label for="service">Type of Work</label>
+              <select id="service">
+                <option value="">Select a service...</option>
+                <option>General Building Work</option>
+                <option>Renovation / Extension</option>
+                <option>Commercial Project</option>
+                <option>New Build</option>
+                <option>Damage Repair</option>
+                <option>General Enquiry</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label for="message">Tell Us About Your Project</label>
+              <textarea id="message" placeholder="Describe the work you have in mind and we will come back to you with a free, no obligation quote..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Enquiry &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-name">DB Building Services Ltd</div>
+        <div class="footer-brand-sub">Est. 85+ Years &mdash; FMB Accredited</div>
+        <p>Trusted builders serving Luton, Harpenden, St Albans, and across Bedfordshire and Hertfordshire since day one. Quality and integrity on every project.</p>
+        <a href="tel:07398552737">07398 552737</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">General Building Work</a></li>
+          <li><a href="#services">Renovations &amp; Extensions</a></li>
+          <li><a href="#services">Commercial Projects</a></li>
+          <li><a href="#services">Residential Builds</a></li>
+          <li><a href="#services">Damage Repairs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#gallery">Projects</a></li>
+          <li><a href="#trust">Why Choose Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="mailto:dbbuildingservices44@gmail.com">Email Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 DB Building Services Ltd. All rights reserved. Registered in England &amp; Wales No. 10797820.</p>
+      <p>Designed by <a href="https://shanebell.dev" target="_blank" rel="noopener">Shane Bell</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* === DARK MODE === */
+  const toggle = document.getElementById('themeToggle');
+  const html   = document.documentElement;
+  const saved  = localStorage.getItem('db-theme');
+  if (saved) { html.setAttribute('data-theme', saved); toggle.textContent = saved === 'dark' ? '☀️' : '🌙'; }
+  toggle.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('db-theme', next);
+  });
+
+  /* === HAMBURGER === */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  /* === SCROLL REVEAL === */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 85);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* === COUNTERS === */
+  const counters   = document.querySelectorAll('.counter');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target, target = parseInt(el.dataset.target, 10), dur = 1800;
+      const start = performance.now();
+      const tick  = (now) => {
+        const t = Math.min((now - start) / dur, 1);
+        el.textContent = Math.round((1 - Math.pow(1 - t, 3)) * target);
+        if (t < 1) requestAnimationFrame(tick); else el.textContent = target;
+      };
+      requestAnimationFrame(tick);
+      counterObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterObs.observe(c));
+
+  /* === NAV SHADOW === */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').style.boxShadow = window.scrollY > 60 ? '0 4px 28px rgba(28,26,25,0.14)' : 'none';
+  }, { passive: true });
+
+  /* === FORM === */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Enquiry Sent ✓';
+    btn.style.background = '#2a7d4f';
+    setTimeout(() => { btn.textContent = 'Send Enquiry →'; btn.style.background = ''; }, 4000);
+  }
+
+  /* === SERVICE CARD LINKS === */
+  document.querySelectorAll('.service-tag').forEach(tag => {
+    tag.style.cursor = 'pointer';
+    tag.addEventListener('click', () => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }));
+  });
+</script>
+
+</body>
+</html>
