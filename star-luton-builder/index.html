@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Luton Builder Ltd — Premium Home Renovation in Luton</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E36D25;
+      --orange-dark: #c55e1a;
+      --bg: #F5F0EB;
+      --bg2: #EDE7DF;
+      --card-bg: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #5A5550;
+      --border: rgba(0,0,0,0.08);
+      --nav-bg: rgba(245,240,235,0.95);
+      --shadow: 0 2px 32px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #161616;
+      --bg2: #1F1F1F;
+      --card-bg: #252525;
+      --text: #F0EBE4;
+      --text-muted: #9A9590;
+      --border: rgba(255,255,255,0.08);
+      --nav-bg: rgba(22,22,22,0.95);
+      --shadow: 0 2px 32px rgba(0,0,0,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.15; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    /* === ANIMATIONS === */
+    .reveal        { opacity: 0; transform: translateY(36px); transition: opacity 0.72s ease, transform 0.72s ease; }
+    .reveal-left   { opacity: 0; transform: translateX(-44px); transition: opacity 0.72s ease, transform 0.72s ease; }
+    .reveal-right  { opacity: 0; transform: translateX(44px);  transition: opacity 0.72s ease, transform 0.72s ease; }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+    /* === NAV === */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px; max-width: 1180px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-logo img { height: 46px; width: auto; }
+    .nav-links { display: flex; gap: 34px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; letter-spacing: 0.04em; color: var(--text); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-cta {
+      background: var(--orange); color: #fff !important; padding: 10px 24px;
+      border-radius: 999px; font-size: 14px; font-weight: 700;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .theme-toggle {
+      background: none; border: 1.5px solid var(--border); border-radius: 50%;
+      width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; transition: background 0.2s, border-color 0.2s;
+    }
+    .theme-toggle:hover { background: var(--border); }
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: var(--nav-bg); backdrop-filter: blur(16px);
+      padding: 0 24px 24px; border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 14px 0; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); color: var(--text); }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* === HERO === */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_1224.JPG');
+      background-size: cover; background-position: center;
+      animation: heroZoom 14s ease-in-out infinite alternate;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.0); }
+      to   { transform: scale(1.08); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(125deg, rgba(20,20,20,0.86) 0%, rgba(20,20,20,0.55) 55%, rgba(227,109,37,0.12) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 680px;
+      padding: 140px 24px 100px;
+      margin: 0 0 0 max(24px, calc((100vw - 1180px) / 2));
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(227,109,37,0.18); border: 1px solid rgba(227,109,37,0.4);
+      color: #E36D25; font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 7px 16px; border-radius: 999px;
+      margin-bottom: 28px; animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: #E36D25; border-radius: 50%; }
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 74px); font-weight: 900; color: #fff;
+      line-height: 1.07; margin-bottom: 24px; animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub {
+      font-size: 17px; color: rgba(255,255,255,0.82); line-height: 1.72;
+      max-width: 520px; margin-bottom: 40px; animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.8s 0.45s ease both; }
+    .btn-primary {
+      background: var(--orange); color: #fff; padding: 15px 36px; border-radius: 999px;
+      font-size: 15px; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(227,109,37,0.38);
+    }
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(227,109,37,0.5); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.1); color: #fff; padding: 15px 36px; border-radius: 999px;
+      font-size: 15px; font-weight: 600; border: 1.5px solid rgba(255,255,255,0.35);
+      display: inline-flex; align-items: center; gap: 10px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 2; animation: bounce 2.2s infinite;
+    }
+    .hero-scroll span { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; text-transform: uppercase; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(9px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* === STATS STRIP === */
+    .stats-strip { background: var(--orange); padding: 52px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+    .stat-item { text-align: center; padding: 0 20px; border-right: 1px solid rgba(255,255,255,0.22); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.82); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* === COMMON SECTION === */
+    section { padding: 100px 0; }
+    .section-eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+    .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 700; color: var(--text); margin-bottom: 18px; }
+    .section-body { font-size: 16px; color: var(--text-muted); line-height: 1.78; max-width: 580px; }
+
+    /* === SERVICES === */
+    .services { background: var(--bg2); }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 32px; flex-wrap: wrap; }
+    .services-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+    .service-card {
+      background: var(--card-bg); border-radius: 18px; overflow: hidden;
+      transition: transform 0.32s, box-shadow 0.32s; cursor: default;
+    }
+    .service-card:hover { transform: translateY(-7px); box-shadow: 0 22px 52px rgba(0,0,0,0.13); }
+    .service-img { height: 248px; overflow: hidden; position: relative; }
+    .service-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .service-card:hover .service-img img { transform: scale(1.07); }
+    .service-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--orange); color: #fff; font-size: 11px; font-weight: 700;
+      padding: 5px 14px; border-radius: 999px; letter-spacing: 0.07em; text-transform: uppercase;
+    }
+    .service-body { padding: 28px 32px 32px; }
+    .service-body h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .service-body p { font-size: 14px; color: var(--text-muted); line-height: 1.72; }
+    .service-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 14px; font-weight: 600; color: var(--orange); transition: gap 0.2s; font-family: 'DM Sans', sans-serif; }
+    .service-link:hover { gap: 14px; }
+
+    /* === ABOUT === */
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-wrap img { width: 100%; border-radius: 18px; object-fit: cover; aspect-ratio: 4/5; }
+    .about-accent { position: absolute; bottom: -28px; right: -28px; width: 190px; height: 190px; background: var(--orange); border-radius: 18px; z-index: -1; opacity: 0.28; }
+    .about-badge-float {
+      position: absolute; top: 28px; right: -22px;
+      background: var(--orange); color: #fff; border-radius: 14px;
+      padding: 18px 24px; text-align: center; box-shadow: 0 10px 28px rgba(227,109,37,0.42);
+    }
+    .about-badge-float strong { display: block; font-family: 'Playfair Display', serif; font-size: 40px; line-height: 1; }
+    .about-badge-float span { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.9; }
+    .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+    .about-feature { display: flex; align-items: flex-start; gap: 14px; }
+    .feature-icon { width: 44px; height: 44px; background: rgba(227,109,37,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 20px; }
+    .feature-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text); font-family: 'DM Sans', sans-serif; }
+    .feature-text p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+    /* === GALLERY === */
+    .gallery { background: var(--bg2); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: 268px 268px; gap: 16px; margin-top: 48px; }
+    .gallery-item { border-radius: 14px; overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .gallery-item:nth-child(4) { grid-column: span 2; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.45), transparent); opacity: 0; transition: opacity 0.3s; }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* === TRUST === */
+    .trust-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .trust-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+    .trust-item { display: flex; align-items: flex-start; gap: 16px; padding: 20px; background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); }
+    .trust-check { width: 36px; height: 36px; background: rgba(227,109,37,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--orange); font-size: 15px; font-weight: 700; flex-shrink: 0; font-family: 'DM Sans', sans-serif; }
+    .trust-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; font-family: 'DM Sans', sans-serif; }
+    .trust-text p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+    .trust-review-grid { display: flex; flex-direction: column; gap: 20px; }
+    .review-card { background: var(--card-bg); border-radius: 14px; padding: 24px 28px; border: 1px solid var(--border); }
+    .review-stars { color: var(--orange); font-size: 15px; margin-bottom: 12px; letter-spacing: 2px; }
+    .review-text { font-size: 14px; color: var(--text-muted); line-height: 1.68; margin-bottom: 14px; font-style: italic; }
+    .review-author { font-size: 13px; font-weight: 600; color: var(--text); font-family: 'DM Sans', sans-serif; }
+
+    /* === CONTACT === */
+    .contact { background: var(--bg2); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 26px; }
+    .contact-item { display: flex; align-items: flex-start; gap: 16px; }
+    .contact-icon { width: 48px; height: 48px; background: rgba(227,109,37,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .contact-item h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-muted); font-family: 'DM Sans', sans-serif; }
+    .contact-item p, .contact-item a { font-size: 16px; color: var(--text); font-weight: 500; display: block; }
+    .contact-item a:hover { color: var(--orange); }
+    .contact-form { background: var(--card-bg); border-radius: 22px; padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.07em; text-transform: uppercase; }
+    .form-group input, .form-group textarea, .form-group select {
+      background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 13px 16px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text); transition: border-color 0.2s; outline: none; resize: vertical;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--orange); }
+    .form-group textarea { min-height: 120px; }
+    .form-submit {
+      grid-column: span 2; background: var(--orange); color: #fff; border: none;
+      border-radius: 999px; padding: 16px; font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px;
+      transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em;
+    }
+    .form-submit:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+    /* === FOOTER === */
+    footer { background: #111111; color: rgba(255,255,255,0.65); padding: 72px 0 36px; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 52px; margin-bottom: 52px; }
+    .footer-brand img { height: 42px; margin-bottom: 18px; }
+    .footer-brand p { font-size: 14px; line-height: 1.75; max-width: 310px; margin-bottom: 22px; }
+    .footer-brand a { color: var(--orange); font-weight: 700; font-size: 16px; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; margin-bottom: 18px; font-family: 'DM Sans', sans-serif; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .footer-col li a { font-size: 14px; transition: color 0.2s; }
+    .footer-col li a:hover { color: var(--orange); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 13px; }
+    .footer-bottom a { color: var(--orange); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-content { margin: 0; max-width: 100%; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 28px; }
+      .stat-item { border-right: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; }
+      .about-inner { grid-template-columns: 1fr; }
+      .about-badge-float { display: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+      .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; }
+      .trust-inner { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 64px 0; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full, .form-submit { grid-column: span 1; }
+      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+      .about-features { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/Luton-Builder-logo.png" alt="Star Luton Builder Ltd">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <a href="tel:01582752949" class="nav-cta">Call Us Now</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#about">About Us</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:01582752949" style="color:#E36D25;">📞 01582 752949</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Trusted Since 1999 &mdash; Luton, UK</div>
+    <h1>Building Dreams,<br>One Home at a <em>Time</em></h1>
+    <p class="hero-sub">From loft conversions to full home extensions, Star Luton Builder brings over 25 years of expert craftsmanship to every project across Luton and the surrounding areas.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Get a Free Quote
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="tel:01582752949" class="btn-ghost">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 010 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16v.92z"/></svg>
+        01582 752949
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="25">0</span>+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="500">0</span>+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="4">0</span></div>
+        <div class="stat-label">Core Services</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num"><span class="counter" data-target="100">0</span>%</div>
+        <div class="stat-label">Satisfaction Guaranteed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <span class="section-eyebrow">What We Do</span>
+        <h2 class="section-title reveal">Expert Services for<br>Every Home</h2>
+      </div>
+      <p class="section-body reveal">From structural extensions to intricate kitchen remodels, every project is delivered with the same dedication and precision that has defined us since 1999.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-img">
+          <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_1273.JPG" alt="Home Extensions Luton" loading="lazy">
+          <span class="service-badge">Most Popular</span>
+        </div>
+        <div class="service-body">
+          <h3>Home Extensions</h3>
+          <p>Maximise your living space with side return, single storey, double storey, or over structure extensions. We handle everything from planning permissions through to the finishing touches.</p>
+          <a href="#contact" class="service-link">Enquire Now <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-img">
+          <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_0380.JPG" alt="Loft Conversions Luton" loading="lazy">
+          <span class="service-badge">Adds 20% Value</span>
+        </div>
+        <div class="service-body">
+          <h3>Loft Conversions</h3>
+          <p>Unlock the hidden potential above your head. A well executed loft conversion can add 20 to 25% to your property value and create a stunning new room with minimal disruption to daily life.</p>
+          <a href="#contact" class="service-link">Enquire Now <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-img">
+          <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_2272.JPG" alt="Kitchen and Bathroom Renovation Luton" loading="lazy">
+        </div>
+        <div class="service-body">
+          <h3>Bathroom &amp; Kitchen Remodelling</h3>
+          <p>Transform the heart of your home. Our kitchen and bathroom specialists deliver results that blend style, functionality, and lasting quality — tailored entirely to your taste.</p>
+          <a href="#contact" class="service-link">Enquire Now <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-img">
+          <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/4-0002.png" alt="Roofing Services Luton" loading="lazy">
+          <span class="service-badge">Lifetime Guarantee</span>
+        </div>
+        <div class="service-body">
+          <h3>Roofing</h3>
+          <p>Comprehensive roofing solutions covering fibre glass with a lifetime guarantee, re roofing, tiling, slating, lead and chimney work, and full fascia, soffit and guttering replacements.</p>
+          <a href="#contact" class="service-link">Enquire Now <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img-wrap reveal-left">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/1.png" alt="Star Luton Builder craftsmanship">
+        <div class="about-accent"></div>
+        <div class="about-badge-float">
+          <strong>25+</strong>
+          <span>Years of<br>Excellence</span>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <span class="section-eyebrow">About Us</span>
+        <h2 class="section-title">Luton&rsquo;s Most Trusted<br>Building Specialists</h2>
+        <p class="section-body">Since 1999, Star Luton Builder Ltd has been transforming homes across Luton and beyond. We take on every project &mdash; from small bathroom remodels to full double storey extensions &mdash; with the same commitment to quality and transparency.</p>
+        <p class="section-body" style="margin-top:16px;">We believe you should always understand exactly what is happening on your property. That is why we keep communication open throughout, and we never stop until you are completely satisfied with the finished result.</p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-text">
+              <h4>Satisfaction Guaranteed</h4>
+              <p>We do not stop until every detail is right.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="feature-icon">💬</div>
+            <div class="feature-text">
+              <h4>Full Transparency</h4>
+              <p>No hidden costs. Clear communication throughout.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="feature-icon">📋</div>
+            <div class="feature-text">
+              <h4>Free In Home Estimates</h4>
+              <p>We come to you, assess in person, and quote fairly.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="feature-icon">🔧</div>
+            <div class="feature-text">
+              <h4>Residential &amp; Commercial</h4>
+              <p>All types of builds and damage repairs covered.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <span class="section-eyebrow">Our Work</span>
+    <h2 class="section-title reveal">Craftsmanship You Can See</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_2272.JPG" alt="Kitchen renovation by Star Luton Builder" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_0371.JPG" alt="Home renovation project" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_1273.JPG" alt="Home extension project Luton" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/IMG_0380.JPG" alt="Loft conversion Luton" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/3.jpg" alt="Interior renovation" loading="lazy">
+        <div class="gallery-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST SIGNALS -->
+<section id="trust">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="reveal-left">
+        <span class="section-eyebrow">Why Choose Us</span>
+        <h2 class="section-title" style="margin-bottom:32px;">Built on Trust,<br>Proven by Results</h2>
+        <ul class="trust-list">
+          <li class="trust-item">
+            <div class="trust-check">✓</div>
+            <div class="trust-text">
+              <h4>Over 25 Years in Business</h4>
+              <p>A proven track record since 1999 with hundreds of satisfied homeowners across Luton and the surrounding areas.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <div class="trust-check">✓</div>
+            <div class="trust-text">
+              <h4>Free In Home Consultations</h4>
+              <p>We come to you, assess the project in person, and provide a detailed no obligation quote at no charge.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <div class="trust-check">✓</div>
+            <div class="trust-text">
+              <h4>Fibre Glass Lifetime Guarantee</h4>
+              <p>Our fibre glass roofing comes backed by a lifetime guarantee &mdash; one of the strongest assurances in the industry.</p>
+            </div>
+          </li>
+          <li class="trust-item">
+            <div class="trust-check">✓</div>
+            <div class="trust-text">
+              <h4>Minimal Disruption Approach</h4>
+              <p>Projects are managed carefully to keep disruption low, particularly for loft conversions where scaffolding access keeps noise inside to a minimum.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="trust-review-grid reveal-right">
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;Brilliant work on our loft conversion. The team was professional, tidy, and finished ahead of schedule. We now have a stunning new bedroom and the value added to our home is remarkable.&rdquo;</p>
+          <span class="review-author">Sarah M. &mdash; Luton</span>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;Star Luton Builder completely transformed our kitchen. The attention to detail was second to none and the team kept us informed at every stage. Cannot recommend them highly enough.&rdquo;</p>
+          <span class="review-author">James T. &mdash; Dunstable</span>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">&ldquo;Used them for a rear extension and the results went beyond our expectations. Fair pricing, outstanding craftsmanship, and a genuinely pleasant team to work with throughout.&rdquo;</p>
+          <span class="review-author">Priya K. &mdash; Luton</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <span class="section-eyebrow">Get in Touch</span>
+    <h2 class="section-title reveal" style="margin-bottom:56px;">Let&rsquo;s Talk About<br>Your Project</h2>
+    <div class="contact-inner">
+      <div class="contact-info reveal-left">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:01582752949">01582 752949</a>
+            <a href="tel:+447943238211">+44 7943 238211</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:Bhupi@starlutonbuilder.co.uk">Bhupi@starlutonbuilder.co.uk</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Luton, LU2 7SL<br>United Kingdom</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Opening Hours</h4>
+            <p>Monday to Friday: 9:00am &ndash; 5:00pm</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" placeholder="John">
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" placeholder="Smith">
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="07700 900000">
+            </div>
+            <div class="form-group full">
+              <label for="service">Service Required</label>
+              <select id="service">
+                <option value="">Select a service...</option>
+                <option>Home Extension</option>
+                <option>Loft Conversion</option>
+                <option>Bathroom / Kitchen Remodelling</option>
+                <option>Roofing</option>
+                <option>General Enquiry</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label for="message">Tell Us About Your Project</label>
+              <textarea id="message" placeholder="Describe your project and we will be in touch with a free quote..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send My Enquiry &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://img1.wsimg.com/isteam/ip/54f8b30f-1c30-4e1b-8d27-76c24d068ee5/Luton-Builder-logo.png" alt="Star Luton Builder Ltd">
+        <p>Star Luton Builder Ltd has been transforming homes across Luton since 1999. Quality craftsmanship, transparent pricing, and total satisfaction &mdash; every single time.</p>
+        <a href="tel:01582752949">01582 752949</a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Home Extensions</a></li>
+          <li><a href="#services">Loft Conversions</a></li>
+          <li><a href="#services">Bathroom &amp; Kitchen</a></li>
+          <li><a href="#services">Roofing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="mailto:Bhupi@starlutonbuilder.co.uk">Email Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Star Luton Builder Ltd. All rights reserved.</p>
+      <p>Designed by <a href="https://shanebell.dev" target="_blank" rel="noopener">Shane Bell</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* === DARK MODE === */
+  const toggle = document.getElementById('themeToggle');
+  const html   = document.documentElement;
+  const saved  = localStorage.getItem('slb-theme');
+  if (saved) {
+    html.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
+  toggle.addEventListener('click', () => {
+    const curr = html.getAttribute('data-theme');
+    const next = curr === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('slb-theme', next);
+  });
+
+  /* === HAMBURGER === */
+  const hamburger   = document.getElementById('hamburger');
+  const mobileMenu  = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  /* === INTERSECTION OBSERVER (scroll reveal) === */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 90);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* === ANIMATED COUNTERS === */
+  const counters    = document.querySelectorAll('.counter');
+  const counterObs  = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el     = entry.target;
+      const target = parseInt(el.dataset.target, 10);
+      const dur    = 1800;
+      const start  = performance.now();
+      const tick   = (now) => {
+        const t = Math.min((now - start) / dur, 1);
+        const e = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(e * target);
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(tick);
+      counterObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => counterObs.observe(c));
+
+  /* === NAV SHADOW ON SCROLL === */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.style.boxShadow = window.scrollY > 60 ? '0 4px 28px rgba(0,0,0,0.14)' : 'none';
+  }, { passive: true });
+
+  /* === FORM SUBMIT === */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = '#2a9d5c';
+    setTimeout(() => { btn.textContent = 'Send My Enquiry →'; btn.style.background = ''; }, 4000);
+  }
+</script>
+
+</body>
+</html>
