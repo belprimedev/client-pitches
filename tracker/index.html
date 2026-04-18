@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Tracker — Shane Bell</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:#0C0C0E;color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;padding:48px 32px}
+a{color:inherit;text-decoration:none}
+
+/* HEADER */
+.header{max-width:1100px;margin:0 auto 48px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.header-left{}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px}
+h1{font-family:'Outfit',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em}
+.header-right{font-size:13px;color:rgba(255,255,255,0.35);text-align:right}
+.header-right a{color:rgba(255,255,255,0.5);transition:color 0.2s}
+.header-right a:hover{color:#fff}
+
+/* SUMMARY STRIP */
+.summary{max-width:1100px;margin:0 auto 40px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media(max-width:768px){.summary{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:#141416;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 22px}
+.stat-card-num{font-family:'Outfit',sans-serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:6px}
+.stat-card-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35)}
+
+/* FILTER TABS */
+.filters{max-width:1100px;margin:0 auto 24px;display:flex;gap:8px;flex-wrap:wrap}
+.filter-btn{background:#141416;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.05em;color:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.2s}
+.filter-btn:hover{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)}
+.filter-btn.active{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);color:#fff}
+
+/* TABLE */
+.table-wrap{max-width:1100px;margin:0 auto;background:#141416;border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead tr{border-bottom:1px solid rgba(255,255,255,0.08)}
+thead th{padding:14px 20px;font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-align:left}
+tbody tr{border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;cursor:default}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,0.025)}
+tbody tr.hidden{display:none}
+td{padding:16px 20px;font-size:13px;vertical-align:middle}
+.td-business{font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:#fff}
+.td-niche{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px}
+.td-email{color:rgba(255,255,255,0.55);font-size:12px;font-family:monospace}
+.td-email.bounced{text-decoration:line-through;color:rgba(255,80,80,0.5)}
+.td-email-note{font-size:11px;color:rgba(255,180,0,0.7);margin-top:3px}
+.td-date{color:rgba(255,255,255,0.4);font-size:12px}
+.td-link a{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:4px;padding:4px 10px;transition:all 0.2s}
+.td-link a:hover{color:#fff;border-color:rgba(255,255,255,0.25)}
+.td-notes{font-size:12px;color:rgba(255,255,255,0.4);max-width:200px;line-height:1.4}
+
+/* STATUS BADGES */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:0.06em;padding:4px 10px;border-radius:20px}
+.badge-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.badge-sent{background:rgba(74,222,128,0.1);color:#4ADE80}.badge-sent .badge-dot{background:#4ADE80}
+.badge-draft{background:rgba(250,204,21,0.1);color:#FACC15}.badge-draft .badge-dot{background:#FACC15}
+.badge-built{background:rgba(99,179,237,0.1);color:#63B3ED}.badge-built .badge-dot{background:#63B3ED}
+.badge-replied{background:rgba(167,139,250,0.1);color:#A78BFA}.badge-replied .badge-dot{background:#A78BFA}
+.badge-converted{background:rgba(52,211,153,0.1);color:#34D399;border:1px solid rgba(52,211,153,0.2)}.badge-converted .badge-dot{background:#34D399}
+.badge-bounced{background:rgba(248,113,113,0.1);color:#F87171}.badge-bounced .badge-dot{background:#F87171}
+.badge-noemail{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25)}.badge-noemail .badge-dot{background:rgba(255,255,255,0.2)}
+
+@media(max-width:900px){
+  .col-notes,.col-link{display:none}
+  body{padding:24px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="eyebrow">Shane Bell / Client Pitches</div>
+    <h1>Pitch Tracker</h1>
+  </div>
+  <div class="header-right">
+    <a href="/">← All Pitches</a><br>
+    <span id="lastUpdated"></span>
+  </div>
+</div>
+
+<!-- SUMMARY STRIP -->
+<div class="summary">
+  <div class="stat-card">
+    <div class="stat-card-num" id="totalCount" style="color:#fff">0</div>
+    <div class="stat-card-label">Total Pitched</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="sentCount" style="color:#4ADE80">0</div>
+    <div class="stat-card-label">Emails Sent</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="builtCount" style="color:#63B3ED">0</div>
+    <div class="stat-card-label">Built, No Email</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="repliedCount" style="color:#A78BFA">0</div>
+    <div class="stat-card-label">Replied</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-num" id="convertedCount" style="color:#34D399">0</div>
+    <div class="stat-card-label">Converted</div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" onclick="filterTable('all', this)">All</button>
+  <button class="filter-btn" onclick="filterTable('sent', this)">Sent</button>
+  <button class="filter-btn" onclick="filterTable('built', this)">Built</button>
+  <button class="filter-btn" onclick="filterTable('replied', this)">Replied</button>
+  <button class="filter-btn" onclick="filterTable('converted', this)">Converted</button>
+  <button class="filter-btn" onclick="filterTable('bounced', this)">Bounced</button>
+</div>
+
+<!-- TABLE -->
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Business</th>
+        <th>Email Sent To</th>
+        <th class="col-date">Date</th>
+        <th>Status</th>
+        <th class="col-link">Live Preview</th>
+        <th class="col-notes">Notes</th>
+      </tr>
+    </thead>
+    <tbody id="pitchTable">
+    </tbody>
+  </table>
+</div>
+
+<script>
+const pitches = [
+  {
+    business: "Murray's Electrical Ltd.",
+    niche: "Electrician",
+    email: null,
+    date: "Apr 2026",
+    status: "sent",
+    url: "https://preview.shanebell.dev/murrays/",
+    notes: "First pitch sent"
+  },
+  {
+    business: "Star Luton Builder",
+    niche: "Builder",
+    email: null,
+    date: "Apr 2026",
+    status: "sent",
+    url: "https://preview.shanebell.dev/star-luton-builder/",
+    notes: ""
+  },
+  {
+    business: "DB Building Services",
+    niche: "Builder",
+    email: null,
+    date: "Apr 2026",
+    status: "draft",
+    url: "https://preview.shanebell.dev/db-building-services/",
+    notes: "Draft ready, not sent yet"
+  },
+  {
+    business: "Zenergy Plumbing",
+    niche: "Plumber",
+    email: "zenergyplumbing@gmail.com",
+    date: "18 Apr 2026",
+    status: "sent",
+    url: "https://preview.shanebell.dev/zenergy-plumbing/",
+    notes: ""
+  },
+  {
+    business: "V Painter & Decorator",
+    niche: "Painter",
+    email: "vpainteranddecorator@gmail.com",
+    emailBounced: true,
+    emailResent: "popenramirez@gmail.com",
+    date: "18 Apr 2026",
+    status: "sent",
+    url: "https://preview.shanebell.dev/v-painter-decorator/",
+    notes: "First address bounced, resent to popenramirez@gmail.com"
+  },
+  {
+    business: "Lu Barbers",
+    niche: "Barber",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/lu-barbers/",
+    notes: "No email found — call or Facebook"
+  },
+  {
+    business: "Red Barbers",
+    niche: "Barber",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/red-barbers/",
+    notes: "No email found — call only"
+  },
+  {
+    business: "Touch of Class Hair Salon",
+    niche: "Hair & Beauty",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/touch-of-class/",
+    notes: "No email found — site was down, urgent pitch"
+  },
+  {
+    business: "Terry Thorn Plumbing",
+    niche: "Plumber",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/terry-thorn-plumbing/",
+    notes: "No email found — call only"
+  },
+  {
+    business: "D G Electrics",
+    niche: "Electrician",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/dg-electrics/",
+    notes: "No email found — call only"
+  },
+  {
+    business: "CG Painting Services",
+    niche: "Painter",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/cg-painting-services/",
+    notes: "No email found — call only"
+  },
+  {
+    business: "Food Fellas Halal Takeaway",
+    niche: "Food",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/food-fellas/",
+    notes: "No email found — call or Facebook"
+  },
+  {
+    business: "Union Street Autos",
+    niche: "Garage",
+    email: null,
+    date: "Apr 2026",
+    status: "built",
+    url: "https://preview.shanebell.dev/union-street-autos/",
+    notes: "No email found — call only"
+  }
+];
+
+const statusConfig = {
+  sent:      { label: "Sent",       cls: "badge-sent" },
+  draft:     { label: "Draft Ready",cls: "badge-draft" },
+  built:     { label: "Built",      cls: "badge-built" },
+  replied:   { label: "Replied",    cls: "badge-replied" },
+  converted: { label: "Converted",  cls: "badge-converted" },
+  bounced:   { label: "Bounced",    cls: "badge-bounced" },
+  noemail:   { label: "No Email",   cls: "badge-noemail" }
+};
+
+function renderTable() {
+  const tbody = document.getElementById('pitchTable');
+  tbody.innerHTML = pitches.map((p, i) => {
+    const s = statusConfig[p.status] || statusConfig.built;
+    const emailCell = p.email
+      ? `<div class="td-email${p.emailBounced ? ' bounced' : ''}">${p.email}</div>${p.emailResent ? `<div class="td-email-note">↳ resent to ${p.emailResent}</div>` : ''}`
+      : `<span style="color:rgba(255,255,255,0.2);font-size:12px;">No email</span>`;
+    return `<tr data-status="${p.status}">
+      <td><div class="td-business">${p.business}</div><div class="td-niche">${p.niche}</div></td>
+      <td>${emailCell}</td>
+      <td class="td-date col-date">${p.date}</td>
+      <td><span class="badge ${s.cls}"><span class="badge-dot"></span>${s.label}</span></td>
+      <td class="td-link col-link"><a href="${p.url}" target="_blank">View ↗</a></td>
+      <td class="td-notes col-notes">${p.notes}</td>
+    </tr>`;
+  }).join('');
+  updateCounts();
+}
+
+function updateCounts() {
+  document.getElementById('totalCount').textContent = pitches.length;
+  document.getElementById('sentCount').textContent = pitches.filter(p => p.status === 'sent').length;
+  document.getElementById('builtCount').textContent = pitches.filter(p => p.status === 'built').length;
+  document.getElementById('repliedCount').textContent = pitches.filter(p => p.status === 'replied').length;
+  document.getElementById('convertedCount').textContent = pitches.filter(p => p.status === 'converted').length;
+}
+
+function filterTable(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#pitchTable tr').forEach(row => {
+    row.classList.toggle('hidden', status !== 'all' && row.dataset.status !== status);
+  });
+}
+
+document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+
+renderTable();
+</script>
+</body>
+</html>
