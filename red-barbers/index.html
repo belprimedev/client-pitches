@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Barbers — Dunstable Road, Luton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #CC1F1F; --red-bright: #E53030; --dark: #111111; --dark-2: #191919;
+    --dark-3: #222222; --mid: #333333; --text: #F2EDED; --text-muted: #8A8080;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--dark); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+  .theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--dark-3); border: 1px solid var(--mid); border-radius: 4px; padding: 8px 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s; }
+  .theme-toggle:hover { border-color: var(--red); color: var(--red); }
+  body.light { --dark: #F7F3F3; --dark-2: #EDE8E8; --dark-3: #E4DFDF; --mid: #CFC9C9; --text: #1A1212; --text-muted: #6B5F5F; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; transition: background 0.4s, box-shadow 0.4s; }
+  nav.scrolled { background: rgba(17,17,17,0.97); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(204,31,31,0.2); }
+  body.light nav.scrolled { background: rgba(247,243,243,0.97); }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--red) !important; color: #fff !important; padding: 10px 22px; border-radius: 4px; font-weight: 600 !important; }
+  .nav-cta:hover { background: var(--red-bright) !important; }
+  @media (max-width: 768px) { nav { padding: 0 20px; } .nav-links { display: none; } }
+  .hero { min-height: 100vh; display: flex; align-items: center; background: var(--dark); position: relative; overflow: hidden; }
+  .hero-stripe { position: absolute; top: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(135deg, transparent 0%, rgba(204,31,31,0.06) 100%); clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%); }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(204,31,31,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(204,31,31,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+  .hero-content { position: relative; z-index: 2; padding: 120px 10% 80px; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 32px; opacity: 0; transform: translateX(-20px); transition: opacity 0.7s, transform 0.7s; }
+  .hero-tag.visible { opacity: 1; transform: translateX(0); }
+  .hero-tag-line { width: 40px; height: 2px; background: var(--red); }
+  .hero-tag-text { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 14vw, 180px); line-height: 0.88; letter-spacing: 0.02em; color: var(--text); margin-bottom: 40px; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s; }
+  .hero-title.visible { opacity: 1; transform: translateY(0); }
+  .hero-title .accent { color: var(--red); }
+  .hero-title .outline { -webkit-text-stroke: 2px var(--text); color: transparent; }
+  .hero-desc { font-size: 17px; line-height: 1.7; color: var(--text-muted); max-width: 440px; margin-bottom: 48px; opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s; }
+  .hero-desc.visible { opacity: 1; transform: translateY(0); }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; transition: opacity 0.7s ease 0.45s; }
+  .hero-actions.visible { opacity: 1; }
+  .btn-red { background: var(--red); color: #fff; padding: 16px 36px; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 4px; display: inline-block; transition: background 0.25s, transform 0.2s; }
+  .btn-red:hover { background: var(--red-bright); transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--text); padding: 16px 36px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--mid); border-radius: 4px; display: inline-block; transition: border-color 0.25s, color 0.25s, transform 0.2s; }
+  .btn-ghost:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
+  .hero-info { margin-top: 72px; display: flex; gap: 48px; opacity: 0; transition: opacity 0.7s ease 0.6s; flex-wrap: wrap; }
+  .hero-info.visible { opacity: 1; }
+  .hero-info-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+  .hero-info-value { font-size: 15px; font-weight: 500; color: var(--text); }
+  section { padding: 120px 10%; }
+  @media (max-width: 768px) { section { padding: 80px 24px; } }
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; } .reveal-delay-3 { transition-delay: 0.3s; }
+  .label { font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+  .h2 { font-family: 'DM Serif Display', serif; font-size: clamp(38px, 5vw, 64px); line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+  .body-text { font-size: 16px; line-height: 1.8; color: var(--text-muted); }
+  .services-bg { background: var(--dark-2); }
+  .services-top { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 64px; }
+  @media (max-width: 768px) { .services-top { grid-template-columns: 1fr; gap: 24px; } }
+  .services-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  @media (max-width: 640px) { .services-list { grid-template-columns: 1fr; } }
+  .service-item { background: var(--dark-3); padding: 36px 32px; display: flex; align-items: flex-start; gap: 24px; transition: background 0.3s; position: relative; overflow: hidden; }
+  .service-item::after { content: ''; position: absolute; left: 0; top: 0; bottom: 100%; width: 3px; background: var(--red); transition: bottom 0.35s ease; }
+  .service-item:hover::after { bottom: 0; }
+  .service-item:hover { background: var(--mid); }
+  .service-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--red); opacity: 0.4; line-height: 1; min-width: 36px; transition: opacity 0.3s; }
+  .service-item:hover .service-num { opacity: 0.9; }
+  .service-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); margin-bottom: 8px; }
+  .service-note { font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom: 12px; }
+  .service-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); border: 1px solid rgba(204,31,31,0.3); border-radius: 2px; padding: 3px 10px; }
+  .about-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; }
+  @media (max-width: 900px) { .about-inner { grid-template-columns: 1fr; gap: 48px; } }
+  .about-image-bg { aspect-ratio: 4/5; background: var(--dark-3); border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .about-image-bg::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(204,31,31,0.04) 8px, rgba(204,31,31,0.04) 9px); }
+  .about-initials { font-family: 'Bebas Neue', sans-serif; font-size: 140px; color: var(--red); opacity: 0.15; line-height: 1; position: relative; z-index: 1; }
+  .about-corner-tag { position: absolute; bottom: 24px; left: 24px; background: var(--red); color: #fff; padding: 12px 20px; border-radius: 3px; }
+  .corner-tag-num { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; display: block; }
+  .corner-tag-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; }
+  .about-text .body-text { margin-bottom: 16px; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .about-feature { padding: 18px; background: var(--dark-2); border-radius: 3px; border-left: 3px solid var(--red); }
+  .about-feature-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .about-feature-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .ticker { background: var(--red); padding: 18px 0; overflow: hidden; white-space: nowrap; }
+  .ticker-track { display: inline-flex; gap: 60px; animation: ticker 20s linear infinite; }
+  .ticker-item { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.12em; color: rgba(255,255,255,0.85); }
+  .ticker-item::after { content: ' ●'; color: rgba(255,255,255,0.4); font-size: 8px; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .contact-bg { background: var(--dark-2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1200px; margin: 0 auto; }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .contact-details { margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
+  .contact-detail { display: flex; gap: 16px; align-items: flex-start; }
+  .detail-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-top: 8px; flex-shrink: 0; }
+  .detail-label { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 3px; }
+  .detail-value { font-size: 16px; font-weight: 500; color: var(--text); }
+  .contact-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-label { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); }
+  .form-input { background: var(--dark-3); border: 1px solid var(--mid); border-radius: 4px; padding: 13px 16px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+  .form-input:focus { border-color: var(--red); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+  .form-input option { background: var(--dark-3); }
+  .form-btn { background: var(--red); color: #fff; border: none; padding: 15px 36px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 4px; cursor: pointer; align-self: flex-start; transition: background 0.25s, transform 0.2s; }
+  .form-btn:hover { background: var(--red-bright); transform: translateY(-2px); }
+  footer { background: var(--dark); border-top: 1px solid var(--mid); padding: 40px 10%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.06em; color: var(--text); }
+  .footer-brand span { color: var(--red); }
+  .footer-mid { font-size: 12px; color: var(--text-muted); }
+  .footer-credit { font-size: 12px; color: var(--text-muted); }
+  .footer-credit a { color: var(--red); text-decoration: none; }
+  @media (max-width: 640px) { footer { flex-direction: column; text-align: center; } }
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+<nav id="nav">
+  <a href="#" class="nav-logo"><span>RED</span> BARBERS</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:07794373917" class="nav-cta">Call Now</a></li>
+  </ul>
+</nav>
+<section class="hero" id="hero">
+  <div class="hero-stripe"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="hero-tag-line"></div>
+      <span class="hero-tag-text">Dunstable Road · Luton · LU4 8JJ</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="accent">Red</span><br>
+      <span class="outline">Barbers</span>
+    </h1>
+    <p class="hero-desc">Sharp cuts. Clean fades. No wasted time. Luton's go-to barber for the man who takes his look seriously.</p>
+    <div class="hero-actions">
+      <a href="tel:07794373917" class="btn-red">Book Now — 07794 373917</a>
+      <a href="#services" class="btn-ghost">See Services</a>
+    </div>
+    <div class="hero-info">
+      <div class="hero-info-item">
+        <div class="hero-info-label">Address</div>
+        <div class="hero-info-value">178 Dunstable Road, LU4</div>
+      </div>
+      <div class="hero-info-item">
+        <div class="hero-info-label">Hours</div>
+        <div class="hero-info-value">Mon – Sat, 9am – 7pm</div>
+      </div>
+      <div class="hero-info-item">
+        <div class="hero-info-label">Walk-ins</div>
+        <div class="hero-info-value">Always Welcome</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Skin Fades</span>
+    <span class="ticker-item">Taper Fades</span>
+    <span class="ticker-item">Classic Cuts</span>
+    <span class="ticker-item">Beard Trims</span>
+    <span class="ticker-item">Kids Cuts</span>
+    <span class="ticker-item">Hot Towel Shave</span>
+    <span class="ticker-item">Shape Ups</span>
+    <span class="ticker-item">Skin Fades</span>
+    <span class="ticker-item">Taper Fades</span>
+    <span class="ticker-item">Classic Cuts</span>
+    <span class="ticker-item">Beard Trims</span>
+    <span class="ticker-item">Kids Cuts</span>
+    <span class="ticker-item">Hot Towel Shave</span>
+    <span class="ticker-item">Shape Ups</span>
+  </div>
+</div>
+<section class="services-bg" id="services">
+  <div class="services-top">
+    <div>
+      <p class="label reveal">What We Do</p>
+      <h2 class="h2 reveal reveal-delay-1">Services &amp;<br>Pricing</h2>
+    </div>
+    <p class="body-text reveal reveal-delay-2">Straight talk — every service is done right, the first time. No rushing, no corners cut. Walk in or call ahead.</p>
+  </div>
+  <div class="services-list">
+    <div class="service-item reveal">
+      <span class="service-num">01</span>
+      <div>
+        <h3 class="service-title">Classic Cut</h3>
+        <p class="service-note">Scissor cut, styled to your preference and finished clean.</p>
+        <span class="service-tag">From £12</span>
+      </div>
+    </div>
+    <div class="service-item reveal reveal-delay-1">
+      <span class="service-num">02</span>
+      <div>
+        <h3 class="service-title">Skin Fade</h3>
+        <p class="service-note">Zero to blend — the sharpest fade on Dunstable Road.</p>
+        <span class="service-tag">From £15</span>
+      </div>
+    </div>
+    <div class="service-item reveal reveal-delay-1">
+      <span class="service-num">03</span>
+      <div>
+        <h3 class="service-title">Taper Fade</h3>
+        <p class="service-note">Mid or high — gradual fade for a clean modern finish.</p>
+        <span class="service-tag">From £15</span>
+      </div>
+    </div>
+    <div class="service-item reveal reveal-delay-2">
+      <span class="service-num">04</span>
+      <div>
+        <h3 class="service-title">Beard Trim</h3>
+        <p class="service-note">Lined up, shaped and finished. Add on with any cut.</p>
+        <span class="service-tag">From £8</span>
+      </div>
+    </div>
+    <div class="service-item reveal reveal-delay-2">
+      <span class="service-num">05</span>
+      <div>
+        <h3 class="service-title">Kids Cut</h3>
+        <p class="service-note">Patient and friendly — same quality for the little ones.</p>
+        <span class="service-tag">From £10</span>
+      </div>
+    </div>
+    <div class="service-item reveal reveal-delay-3">
+      <span class="service-num">06</span>
+      <div>
+        <h3 class="service-title">Shape Up</h3>
+        <p class="service-note">Lines, edges, and arches — razor sharp every time.</p>
+        <span class="service-tag">From £8</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="about-image-bg">
+        <span class="about-initials">RB</span>
+        <div class="about-corner-tag">
+          <span class="corner-tag-num">LU4</span>
+          <span class="corner-tag-label">Dunstable Rd</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="label reveal">Who We Are</p>
+      <h2 class="h2 reveal reveal-delay-1">Your Local Barbers.<br>Done Properly.</h2>
+      <p class="body-text reveal reveal-delay-2">Red Barbers is a proper local barbershop on Dunstable Road in Luton. No gimmicks, no long waits — just skilled barbers and a cut that gets it right every time.</p>
+      <p class="body-text reveal reveal-delay-2">Whether you're after a quick tidy or a full skin fade with a beard trim, we've got you covered. All hair types, all ages, walk-ins always welcome.</p>
+      <div class="about-features reveal reveal-delay-3">
+        <div class="about-feature">
+          <div class="about-feature-title">All Hair Types</div>
+          <div class="about-feature-desc">Afro, European, mixed texture — we cut them all</div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-title">Walk-ins Welcome</div>
+          <div class="about-feature-desc">No appointment needed — just show up</div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-title">Family Friendly</div>
+          <div class="about-feature-desc">Kids welcome, relaxed atmosphere</div>
+        </div>
+        <div class="about-feature">
+          <div class="about-feature-title">Easy to Find</div>
+          <div class="about-feature-desc">Right on Dunstable Road, LU4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="contact-bg" id="contact">
+  <div class="contact-grid">
+    <div>
+      <p class="label reveal">Find Us</p>
+      <h2 class="h2 reveal reveal-delay-1">Come In for<br>a Cut</h2>
+      <p class="body-text reveal reveal-delay-2" style="margin-top:20px;">Walk ins are always welcome. Call ahead to lock in a specific time.</p>
+      <div class="contact-details">
+        <div class="contact-detail reveal reveal-delay-2">
+          <div class="detail-dot"></div>
+          <div>
+            <div class="detail-label">Address</div>
+            <div class="detail-value">178 Dunstable Road, Luton, LU4 8JJ</div>
+          </div>
+        </div>
+        <div class="contact-detail reveal reveal-delay-3">
+          <div class="detail-dot"></div>
+          <div>
+            <div class="detail-label">Phone</div>
+            <div class="detail-value"><a href="tel:07794373917" style="color:var(--text);text-decoration:none;">07794 373917</a></div>
+          </div>
+        </div>
+        <div class="contact-detail reveal reveal-delay-3">
+          <div class="detail-dot"></div>
+          <div>
+            <div class="detail-label">Opening Hours</div>
+            <div class="detail-value">Monday to Saturday: 9am – 7pm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form reveal reveal-delay-1" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" placeholder="07700 000000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service</label>
+          <select class="form-input">
+            <option value="">Select a service...</option>
+            <option>Classic Cut</option>
+            <option>Skin Fade</option>
+            <option>Taper Fade</option>
+            <option>Beard Trim</option>
+            <option>Kids Cut</option>
+            <option>Shape Up</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message (optional)</label>
+          <textarea class="form-input" rows="3" placeholder="Anything specific you'd like?"></textarea>
+        </div>
+        <button type="submit" class="form-btn">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="footer-brand"><span>Red</span> Barbers</div>
+  <p class="footer-mid">178 Dunstable Road · Luton · LU4 8JJ · 07794 373917</p>
+  <p class="footer-credit">Designed by <a href="https://shanebell.dev" target="_blank">Shane Bell</a></p>
+</footer>
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  ['hero-tag','hero-title','hero-desc','hero-actions','hero-info'].forEach(cls => {
+    const el = document.querySelector('.' + cls);
+    if (el) setTimeout(() => el.classList.add('visible'), 100);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D G Electrics — Luton Electrician</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;700;900&family=Literata:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --yellow:#F5C400;--yellow-bright:#FFD700;--yellow-dark:#C49A00;
+    --dark:#101010;--dark-2:#161616;--dark-3:#1E1E1E;
+    --mid:#2C2C2C;--text:#F4F0E8;--text-muted:#8A8270;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--dark);color:var(--text);font-family:'Epilogue',sans-serif;font-weight:300;overflow-x:hidden}
+  .theme-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:8px 14px;cursor:pointer;font-family:'Epilogue',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s}
+  .theme-toggle:hover{border-color:var(--yellow);color:var(--yellow)}
+  body.light{--dark:#F4F2EC;--dark-2:#ECEAE2;--dark-3:#E2DFD4;--mid:#D0CCB8;--text:#101010;--text-muted:#5A5240}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 52px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
+  nav.scrolled{background:rgba(16,16,16,0.97);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(245,196,0,0.2)}
+  body.light nav.scrolled{background:rgba(244,242,236,0.97)}
+  .nav-logo{font-family:'Epilogue',sans-serif;font-size:19px;font-weight:900;color:var(--text);text-decoration:none;letter-spacing:-0.02em}
+  .nav-logo span{color:var(--yellow)}
+  .nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+  .nav-links a{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--yellow)}
+  .nav-cta{background:var(--yellow)!important;color:#101010!important;padding:10px 22px;border-radius:4px;font-weight:700!important}
+  .nav-cta:hover{background:var(--yellow-bright)!important}
+  @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;background:var(--dark);position:relative;overflow:hidden;padding:100px 9% 80px}
+  .hero-bolt{position:absolute;right:5%;top:50%;transform:translateY(-50%);font-size:40vw;line-height:1;color:rgba(245,196,0,0.04);pointer-events:none;user-select:none;font-weight:900}
+  .hero-content{position:relative;z-index:2;max-width:800px}
+  .hero-rating{display:inline-flex;align-items:center;gap:10px;background:rgba(245,196,0,0.1);border:1px solid rgba(245,196,0,0.25);border-radius:4px;padding:8px 16px;margin-bottom:36px;font-size:13px;font-weight:600;color:var(--yellow);opacity:0;transform:translateY(14px);transition:opacity 0.7s,transform 0.7s}
+  .hero-rating.visible{opacity:1;transform:translateY(0)}
+  .stars{color:var(--yellow);letter-spacing:1px}
+  .hero-title{font-family:'Epilogue',sans-serif;font-size:clamp(52px,9vw,110px);font-weight:900;line-height:0.9;letter-spacing:-0.03em;color:var(--text);margin-bottom:32px;opacity:0;transform:translateY(36px);transition:opacity 0.8s ease 0.15s,transform 0.8s ease 0.15s}
+  .hero-title.visible{opacity:1;transform:translateY(0)}
+  .hero-title .accent{color:var(--yellow)}
+  .hero-title .block{display:block}
+  .hero-sub{font-family:'Literata',serif;font-size:clamp(16px,2vw,21px);font-style:italic;font-weight:300;color:var(--text-muted);max-width:520px;line-height:1.7;margin-bottom:48px;opacity:0;transition:opacity 0.7s ease 0.3s}
+  .hero-sub.visible{opacity:1}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.45s}
+  .hero-ctas.visible{opacity:1}
+  .btn-yellow{background:var(--yellow);color:#101010;padding:15px 36px;font-size:14px;font-weight:700;letter-spacing:0.04em;text-decoration:none;border-radius:4px;display:inline-block;transition:background 0.2s,transform 0.2s}
+  .btn-yellow:hover{background:var(--yellow-bright);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--text);padding:15px 36px;font-size:14px;font-weight:500;letter-spacing:0.06em;text-decoration:none;border:1px solid var(--mid);border-radius:4px;display:inline-block;transition:border-color 0.2s,color 0.2s,transform 0.2s}
+  .btn-outline:hover{border-color:var(--yellow);color:var(--yellow);transform:translateY(-2px)}
+  .hero-certs{display:flex;gap:32px;margin-top:60px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.6s}
+  .hero-certs.visible{opacity:1}
+  .cert-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-muted)}
+  .cert-check{color:var(--yellow);font-size:14px;font-weight:700}
+
+  /* SECTIONS */
+  section{padding:110px 9%}
+  @media(max-width:768px){section{padding:80px 20px}}
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.65s,transform 0.65s}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+  .label{font-size:11px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:14px}
+  .h2{font-family:'Epilogue',sans-serif;font-size:clamp(36px,5vw,58px);font-weight:900;line-height:1.05;letter-spacing:-0.02em;color:var(--text);margin-bottom:20px}
+  .copy{font-size:16px;line-height:1.8;color:var(--text-muted)}
+  .yr{width:44px;height:3px;background:var(--yellow);margin:22px 0;border-radius:2px}
+
+  /* SERVICES */
+  .svc-bg{background:var(--dark-2)}
+  .svc-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:60px;max-width:1200px;margin-left:auto;margin-right:auto}
+  @media(max-width:768px){.svc-top{grid-template-columns:1fr;gap:24px;margin-bottom:40px}}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:0 auto}
+  @media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
+  .sc{background:var(--dark-3);padding:36px 30px;transition:background 0.3s;position:relative;overflow:hidden}
+  .sc::after{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--yellow);transform:scaleY(0);transform-origin:top;transition:transform 0.35s}
+  .sc:hover::after{transform:scaleY(1)}
+  .sc:hover{background:var(--mid)}
+  .sc-ic{font-size:26px;margin-bottom:18px;display:block}
+  .sc-nm{font-family:'Epilogue',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.01em}
+  .sc-tx{font-size:13px;line-height:1.65;color:var(--text-muted)}
+
+  /* ABOUT */
+  .about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+  @media(max-width:900px){.about-inner{grid-template-columns:1fr;gap:48px}}
+  .about-text .copy{max-width:100%}
+  .review-card{background:var(--dark-2);border:1px solid var(--mid);border-radius:6px;padding:24px 28px;margin-top:32px;position:relative}
+  .review-card::before{content:'❝';position:absolute;top:-14px;left:24px;font-size:32px;color:var(--yellow);line-height:1}
+  .review-stars{color:var(--yellow);font-size:16px;letter-spacing:2px;margin-bottom:12px}
+  .review-text{font-family:'Literata',serif;font-style:italic;font-size:15px;line-height:1.7;color:var(--text-muted);margin-bottom:14px}
+  .review-meta{font-size:12px;font-weight:600;color:var(--text);letter-spacing:0.05em}
+  .review-source{font-size:11px;color:var(--text-muted)}
+  .about-stats-col{display:flex;flex-direction:column;gap:2px}
+  .about-stat{background:var(--dark-3);padding:32px 28px}
+  .about-stat:last-child{background:var(--yellow);padding:40px 28px}
+  .about-stat-n{font-family:'Epilogue',sans-serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-0.03em;color:var(--text)}
+  .about-stat:last-child .about-stat-n{color:#101010}
+  .about-stat-l{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-top:8px}
+  .about-stat:last-child .about-stat-l{color:rgba(16,16,16,0.6)}
+
+  /* CONTACT */
+  .contact-bg{background:var(--dark-2)}
+  .contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+  @media(max-width:900px){.contact-inner{grid-template-columns:1fr;gap:48px}}
+  .contact-items{margin-top:40px;display:flex;flex-direction:column;gap:24px}
+  .ci{display:flex;gap:14px;align-items:flex-start}
+  .ci-dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);flex-shrink:0;margin-top:9px}
+  .ci-label{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:2px}
+  .ci-val{font-size:16px;font-weight:500;color:var(--text)}
+  .form{display:flex;flex-direction:column;gap:16px}
+  .fg{display:flex;flex-direction:column;gap:6px}
+  .fl{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+  .fi{background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:12px 16px;color:var(--text);font-family:'Epilogue',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+  .fi:focus{border-color:var(--yellow)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.frow{grid-template-columns:1fr}}
+  .fi option{background:var(--dark-3)}
+  .fsub{background:var(--yellow);color:#101010;border:none;padding:14px 32px;font-family:'Epilogue',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.06em;border-radius:4px;cursor:pointer;align-self:flex-start;transition:background 0.25s,transform 0.2s}
+  .fsub:hover{background:var(--yellow-bright);transform:translateY(-2px)}
+  footer{background:var(--dark);border-top:1px solid var(--mid);padding:36px 9%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+  @media(max-width:640px){footer{flex-direction:column;text-align:center}}
+  .fl-logo{font-family:'Epilogue',sans-serif;font-size:18px;font-weight:900;letter-spacing:-0.02em;color:var(--text)}
+  .fl-logo span{color:var(--yellow)}
+  .fl-mid{font-size:12px;color:var(--text-muted)}
+  .fl-credit{font-size:12px;color:var(--text-muted)}
+  .fl-credit a{color:var(--yellow);text-decoration:none}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+<nav id="nav">
+  <a href="#" class="nav-logo"><span>DG</span> Electrics</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:01582487969" class="nav-cta">Call Now</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-bolt">⚡</div>
+  <div class="hero-content">
+    <div class="hero-rating">
+      <span class="stars">★★★★★</span>
+      4.95 / 5 — 186 verified reviews
+    </div>
+    <h1 class="hero-title">
+      <span class="block">D G</span>
+      <span class="block accent">Electrics</span>
+    </h1>
+    <p class="hero-sub">Fully qualified Luton electrician with 25 years of experience. Domestic wiring, rewires, PAT testing and everything in between — done properly, first time.</p>
+    <div class="hero-ctas">
+      <a href="tel:01582487969" class="btn-yellow">Call 01582 487969</a>
+      <a href="#services" class="btn-outline">View Services</a>
+    </div>
+    <div class="hero-certs">
+      <div class="cert-item"><span class="cert-check">✓</span> NAPIT Registered</div>
+      <div class="cert-item"><span class="cert-check">✓</span> City &amp; Guilds Qualified</div>
+      <div class="cert-item"><span class="cert-check">✓</span> NVQ Level 3</div>
+      <div class="cert-item"><span class="cert-check">✓</span> Est. 2001</div>
+    </div>
+  </div>
+</section>
+
+<section class="svc-bg" id="services">
+  <div class="svc-top">
+    <div>
+      <p class="label reveal">Services</p>
+      <h2 class="h2 reveal d1">All Domestic<br>Electrical Work</h2>
+    </div>
+    <p class="copy reveal d2">From a single socket to a full house rewire — Dean handles every job with the same care and attention. No call-out centres, no subcontractors.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="sc reveal"><span class="sc-ic">🔌</span><h3 class="sc-nm">Full Rewires</h3><p class="sc-tx">Complete house rewires to current BS7671 regulations. Minimal disruption, thorough testing on completion.</p></div>
+    <div class="sc reveal d1"><span class="sc-ic">📋</span><h3 class="sc-nm">EICR / Safety Cert</h3><p class="sc-tx">Electrical Installation Condition Reports for landlords, home buyers and insurance requirements.</p></div>
+    <div class="sc reveal d2"><span class="sc-ic">💡</span><h3 class="sc-nm">Lighting &amp; Sockets</h3><p class="sc-tx">New circuits, additional sockets, LED downlighter installation, garden lighting and more.</p></div>
+    <div class="sc reveal d1"><span class="sc-ic">🧾</span><h3 class="sc-nm">PAT Testing</h3><p class="sc-tx">Portable Appliance Testing for landlords, businesses and letting agents. Certificates issued on the day.</p></div>
+    <div class="sc reveal d2"><span class="sc-ic">⚡</span><h3 class="sc-nm">Consumer Units</h3><p class="sc-tx">Fuseboard upgrades to modern RCD-protected consumer units. Compliant with Part P regulations.</p></div>
+    <div class="sc reveal d3"><span class="sc-ic">🔧</span><h3 class="sc-nm">Fault Finding</h3><p class="sc-tx">Tripping circuits, dead sockets, flickering lights — diagnosed and fixed efficiently and cleanly.</p></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <p class="label reveal">About Dean</p>
+      <h2 class="h2 reveal d1">25 Years.<br>Zero Shortcuts.</h2>
+      <div class="yr reveal d2"></div>
+      <p class="copy reveal d2">Dean Gates has been working as a qualified electrician since 2001, following 11 years of training with Eastern Electricity. Every job is carried out personally by Dean — no subcontractors, no surprises. Just clean, professional electrical work with all the right paperwork.</p>
+      <div class="review-card reveal d3">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Punctual, clean, friendly and very reasonably priced. Dean turned up when he said he would and left the place spotless. Could not recommend more highly."</p>
+        <div class="review-meta">Verified Customer</div>
+        <div class="review-source">TrustATrader · 4.95/5 from 186 reviews</div>
+      </div>
+    </div>
+    <div class="about-stats-col">
+      <div class="about-stat reveal">
+        <div class="about-stat-n" data-target="25">0</div>
+        <div class="about-stat-l">Years Experience</div>
+      </div>
+      <div class="about-stat reveal d1">
+        <div class="about-stat-n" data-target="186">0</div>
+        <div class="about-stat-l">Verified Reviews</div>
+      </div>
+      <div class="about-stat reveal d2">
+        <div class="about-stat-n">4.95</div>
+        <div class="about-stat-l">Average Rating</div>
+      </div>
+      <div class="about-stat reveal d3">
+        <div class="about-stat-n">NAPIT</div>
+        <div class="about-stat-l">Registered &amp; Certified</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-bg" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="label reveal">Contact</p>
+      <h2 class="h2 reveal d1">Get a Quote</h2>
+      <p class="copy reveal d2" style="margin-top:20px;">Call Dean directly or send a message with your job details. All quotes are free and transparent with no hidden charges.</p>
+      <div class="contact-items">
+        <div class="ci reveal d2"><div class="ci-dot"></div><div><div class="ci-label">Phone</div><div class="ci-val"><a href="tel:01582487969" style="color:var(--text);text-decoration:none;">01582 487969</a></div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Address</div><div class="ci-val">9 Ravenbank Road, Luton, LU2 8EJ</div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Coverage</div><div class="ci-val">All Luton postcodes + surrounding areas</div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Qualifications</div><div class="ci-val">NAPIT · City &amp; Guilds · NVQ Level 3</div></div></div>
+      </div>
+    </div>
+    <div>
+      <form class="form reveal d1" onsubmit="return false;">
+        <div class="frow">
+          <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" placeholder="John"></div>
+          <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Smith"></div>
+        </div>
+        <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel" placeholder="07700 000000"></div>
+        <div class="fg"><label class="fl">Job Type</label>
+          <select class="fi">
+            <option value="">Select...</option>
+            <option>Full Rewire</option>
+            <option>EICR / Safety Certificate</option>
+            <option>Consumer Unit Upgrade</option>
+            <option>Lighting / Sockets</option>
+            <option>PAT Testing</option>
+            <option>Fault Finding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Job Description</label><textarea class="fi" rows="3" placeholder="Briefly describe the work you need done..."></textarea></div>
+        <button type="submit" class="fsub">Request a Quote</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl-logo"><span>DG</span> Electrics</div>
+  <p class="fl-mid">9 Ravenbank Road · Luton · LU2 8EJ · 01582 487969</p>
+  <p class="fl-credit">Designed by <a href="https://shanebell.dev" target="_blank">Shane Bell</a></p>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  ['hero-rating','hero-title','hero-sub','hero-ctas','hero-certs'].forEach(c=>{const el=document.querySelector('.'+c);if(el)setTimeout(()=>el.classList.add('visible'),100)});
+  const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=parseInt(el.getAttribute('data-target'));if(!t)return;const dur=1600,s=performance.now();const tick=n=>{const p=Math.min((n-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(ease*t);if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);cObs.unobserve(el)})},{threshold:0.5});
+  document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
+</script>
+</body>
+</html>

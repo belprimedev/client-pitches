@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LU Barbers — Dallow Road, Luton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5AA;
+    --dark: #0F0F0F;
+    --dark-2: #181818;
+    --dark-3: #222222;
+    --mid: #2E2E2E;
+    --text: #F0EDE8;
+    --text-muted: #9A8F82;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── DARK MODE TOGGLE ── */
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--dark-3);
+    border: 1px solid var(--mid);
+    border-radius: 50px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+  .theme-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+  body.light {
+    --dark: #F5F2EE;
+    --dark-2: #EDEAE5;
+    --dark-3: #E4E0DB;
+    --mid: #D0CBC3;
+    --text: #1A1714;
+    --text-muted: #6B625A;
+    --white: #FFFFFF;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(15,15,15,0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 rgba(201,169,110,0.15);
+  }
+  body.light nav.scrolled { background: rgba(245,242,238,0.96); }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--dark) !important;
+    padding: 10px 24px;
+    border-radius: 3px;
+    color: #0F0F0F;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--gold-light); color: var(--dark) !important; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(201,169,110,0.08) 0%, transparent 70%),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(201,169,110,0.03) 80px,
+        rgba(201,169,110,0.03) 81px
+      );
+  }
+
+  .hero-pole {
+    position: absolute;
+    left: 8%;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: repeating-linear-gradient(
+      180deg,
+      #CC2936 0px,
+      #CC2936 20px,
+      #FFFFFF 20px,
+      #FFFFFF 40px,
+      #1A3A8F 40px,
+      #1A3A8F 60px
+    );
+    opacity: 0.25;
+    border-radius: 3px;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 10vw, 110px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease 0.15s, transform 0.8s ease 0.15s;
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-title.visible { opacity: 1; transform: translateY(0); }
+
+  .hero-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+  }
+  .hero-subtitle.visible { opacity: 1; transform: translateY(0); }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.45s, transform 0.8s ease 0.45s;
+  }
+  .hero-actions.visible { opacity: 1; transform: translateY(0); }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #0F0F0F;
+    padding: 16px 40px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    padding: 16px 40px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--mid);
+    border-radius: 3px;
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-address {
+    margin-top: 64px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.8s ease 0.6s;
+  }
+  .hero-address.visible { opacity: 1; }
+  .hero-address span { color: var(--gold); }
+
+  /* ── SECTION BASE ── */
+  section { padding: 120px 48px; }
+  @media (max-width: 768px) { section { padding: 80px 24px; } }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  .section-body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    max-width: 560px;
+  }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--dark-2); }
+  .services-inner { max-width: 1200px; margin: 0 auto; }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  @media (max-width: 768px) {
+    .services-header { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .service-card {
+    background: var(--dark-3);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 100%;
+    height: 2px;
+    background: var(--gold);
+    transition: right 0.4s ease;
+  }
+  .service-card:hover::before { right: 0; }
+  .service-card:hover { background: var(--mid); }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .service-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .service-price-from {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--dark); }
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: var(--dark-3);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-visual-pattern {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(201,169,110,0.04) 10px,
+        rgba(201,169,110,0.04) 11px
+      );
+  }
+
+  .about-visual-center {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .about-visual-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    font-weight: 900;
+    color: var(--gold);
+    opacity: 0.3;
+    line-height: 1;
+    display: block;
+  }
+
+  .about-visual-badge {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+  }
+  .badge-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .badge-text {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .about-content .section-body { max-width: 100%; }
+
+  .about-list {
+    list-style: none;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .about-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .about-list li::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(201,169,110,0.15);
+    border: 1px solid var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+  }
+  .about-list li::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23C9A96E'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+  }
+
+  /* ── STATS ── */
+  .stats-section {
+    background: var(--gold);
+    padding: 80px 48px;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: #0F0F0F;
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(15,15,15,0.6);
+    margin-top: 8px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section { background: var(--dark-2); }
+  .contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  @media (max-width: 900px) {
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .contact-info-items { margin-top: 40px; display: flex; flex-direction: column; gap: 28px; }
+  .contact-info-item { display: flex; gap: 20px; align-items: flex-start; }
+  .contact-info-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(201,169,110,0.1);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .contact-info-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .contact-info-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--dark-3);
+    border: 1px solid var(--mid);
+    border-radius: 3px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    transition: border-color 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group select option { background: var(--dark-3); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
+  .form-submit {
+    background: var(--gold);
+    color: #0F0F0F;
+    border: none;
+    padding: 16px 40px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--mid);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 24px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .footer-credit {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+  .footer-credit a { color: var(--gold); text-decoration: none; }
+  .footer-credit a:hover { text-decoration: underline; }
+  @media (max-width: 768px) {
+    footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+    .footer-credit { text-align: center; }
+  }
+
+  /* ── DIVIDER ── */
+  .gold-line {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 28px 0;
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">LU Barbers</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:01582727694" class="nav-cta">Call Now</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pole"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">162 Dallow Road · Luton · LU1 1NG</p>
+    <h1 class="hero-title"><span class="gold">LU</span><br>Barbers</h1>
+    <p class="hero-subtitle">Precision Cuts · Expert Fades · Luton's Finest</p>
+    <div class="hero-actions">
+      <a href="tel:01582727694" class="btn-primary">Book Your Cut</a>
+      <a href="#services" class="btn-secondary">View Services</a>
+    </div>
+    <p class="hero-address">Call us: <span>01582 727694</span></p>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services-section" id="services">
+  <div class="services-inner">
+    <div class="services-header">
+      <div>
+        <p class="section-label reveal">Our Services</p>
+        <h2 class="section-title reveal reveal-delay-1">Every Cut.<br>Crafted.</h2>
+      </div>
+      <p class="section-body reveal reveal-delay-2">From clean tapers to full style overhauls — every client gets the same level of care and precision. Walk in or call ahead to secure your slot.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon">✂</span>
+        <h3 class="service-name">Classic Cut</h3>
+        <p class="service-desc">Traditional scissor cut styled and finished to perfection. Clean lines, sharp finish.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£12</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-icon">⚡</span>
+        <h3 class="service-name">Skin Fade</h3>
+        <p class="service-desc">Precision fade blended from skin-level up. The clean look that lasts the longest.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£15</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-icon">🪒</span>
+        <h3 class="service-name">Beard Trim</h3>
+        <p class="service-desc">Shaped, lined up and finished with hot towel. Add on with any cut or standalone.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£8</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-icon">👑</span>
+        <h3 class="service-name">Taper Fade</h3>
+        <p class="service-desc">Gradual fade from mid to high — a versatile modern style that suits all hair types.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£15</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-icon">✦</span>
+        <h3 class="service-name">Kids Cut</h3>
+        <p class="service-desc">Patient, friendly cuts for the little ones. Same quality, same care.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£10</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <span class="service-icon">💎</span>
+        <h3 class="service-name">Full Groom</h3>
+        <p class="service-desc">Cut, beard, hot towel shave — the complete package for a fresh look start to finish.</p>
+        <div class="service-price"><span class="service-price-from">from</span>£22</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="reveal">
+      <span class="stat-num" data-target="8">0</span>
+      <div class="stat-label">Years Serving Luton</div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <span class="stat-num" data-target="6">0</span>
+      <div class="stat-label">Days a Week</div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <span class="stat-num" data-target="100">0</span>
+      <div class="stat-label">% Satisfaction</div>
+    </div>
+    <div class="reveal reveal-delay-3">
+      <span class="stat-num" data-target="1">0</span>
+      <div class="stat-label">Location · Dallow Road</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <div class="about-visual-pattern"></div>
+      <div class="about-visual-center">
+        <span class="about-visual-logo">LU</span>
+        <p style="font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;">Barbers · Luton</p>
+      </div>
+      <div class="about-visual-badge">
+        <span class="badge-num">LU1</span>
+        <span class="badge-text">Dallow<br>Road</span>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="section-label reveal">About Us</p>
+      <h2 class="section-title reveal reveal-delay-1">The Barber<br>Shop Luton<br>Trusts</h2>
+      <div class="gold-line reveal reveal-delay-2"></div>
+      <p class="section-body reveal reveal-delay-2">At LU Barbers on Dallow Road, we do one thing and we do it right — proper cuts for the people of Luton. Whether you're after a sharp skin fade, a tidy taper, or a beard that's been properly sorted, you'll leave looking and feeling your best.</p>
+      <ul class="about-list reveal reveal-delay-3">
+        <li>All hair types welcome — cuts for every style and texture</li>
+        <li>Quick turnaround without cutting corners on quality</li>
+        <li>Friendly, welcoming atmosphere — regulars and walk-ins always welcome</li>
+        <li>Right in the heart of Luton, easy to get to on Dallow Road</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label reveal">Get In Touch</p>
+      <h2 class="section-title reveal reveal-delay-1">Ready for<br>a Fresh Cut?</h2>
+      <div class="gold-line reveal reveal-delay-2"></div>
+      <p class="section-body reveal reveal-delay-2">Walk in or give us a ring to book your slot. We're open six days a week and always happy to fit you in.</p>
+
+      <div class="contact-info-items">
+        <div class="contact-info-item reveal reveal-delay-2">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <div class="contact-info-label">Address</div>
+            <div class="contact-info-value">162 Dallow Road, Luton, LU1 1NG</div>
+          </div>
+        </div>
+        <div class="contact-info-item reveal reveal-delay-3">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <div class="contact-info-label">Phone</div>
+            <div class="contact-info-value"><a href="tel:01582727694" style="color:var(--text);text-decoration:none;">01582 727694</a></div>
+          </div>
+        </div>
+        <div class="contact-info-item reveal reveal-delay-3">
+          <div class="contact-info-icon">🕐</div>
+          <div>
+            <div class="contact-info-label">Hours</div>
+            <div class="contact-info-value">Mon – Sat: 9am – 7pm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <form class="contact-form reveal reveal-delay-1" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="07700 000000">
+        </div>
+        <div class="form-group">
+          <label>Service</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Classic Cut</option>
+            <option>Skin Fade</option>
+            <option>Taper Fade</option>
+            <option>Beard Trim</option>
+            <option>Kids Cut</option>
+            <option>Full Groom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Preferred Day</label>
+          <select>
+            <option value="">Any day...</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+          </select>
+        </div>
+        <button type="submit" class="form-submit">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">LU Barbers</div>
+  <p class="footer-copy">© 2026 LU Barbers · 162 Dallow Road, Luton, LU1 1NG</p>
+  <p class="footer-credit">Designed by <a href="https://shanebell.dev" target="_blank">Shane Bell</a></p>
+</footer>
+
+<script>
+  // ── NAVBAR ──
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── INTERSECTION OBSERVER ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions, .hero-address').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Trigger hero immediately
+  document.querySelectorAll('.hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions, .hero-address').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 100);
+  });
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-target'));
+    const duration = 1800;
+    const start = performance.now();
+    const update = (time) => {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>

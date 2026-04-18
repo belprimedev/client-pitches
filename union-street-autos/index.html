@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Union Street Autos — Diesel Specialists, Luton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --amber:#E07B00;--amber-bright:#F59300;--amber-dark:#B86400;
+    --steel:#1A2030;--steel-2:#1F2840;--steel-3:#263050;
+    --mid:#364060;--text:#EDF0F8;--text-muted:#7A8AAA;--white:#fff;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--steel);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden}
+  .theme-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:var(--steel-3);border:1px solid var(--mid);border-radius:4px;padding:8px 14px;cursor:pointer;font-family:'Barlow',sans-serif;font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s}
+  .theme-toggle:hover{border-color:var(--amber);color:var(--amber)}
+  body.light{--steel:#F0F3FA;--steel-2:#E4EAF5;--steel-3:#D8E0F0;--mid:#C0CEDF;--text:#0A1020;--text-muted:#3A5070}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 52px;height:70px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
+  nav.scrolled{background:rgba(26,32,48,0.97);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(224,123,0,0.25)}
+  body.light nav.scrolled{background:rgba(240,243,250,0.97)}
+  .nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);text-decoration:none}
+  .nav-logo span{color:var(--amber)}
+  .nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+  .nav-links a{font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{background:var(--amber)!important;color:#fff!important;padding:10px 22px;border-radius:4px;font-weight:700!important}
+  .nav-cta:hover{background:var(--amber-bright)!important}
+  @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;background:var(--steel);position:relative;overflow:hidden}
+  .hero-bg-geo{position:absolute;inset:0}
+  .hero-bg-geo::before{content:'';position:absolute;top:0;right:0;width:45%;height:100%;background:var(--steel-2);clip-path:polygon(15% 0,100% 0,100% 100%,0 100%)}
+  .hero-bg-geo::after{content:'';position:absolute;top:50%;right:15%;transform:translateY(-50%);width:200px;height:200px;border-radius:50%;border:1px solid rgba(224,123,0,0.15)}
+  .hero-diag-line{position:absolute;top:0;right:0;bottom:0;width:1px;left:55%;background:linear-gradient(180deg,transparent,rgba(224,123,0,0.3),transparent)}
+  .hero-content{position:relative;z-index:2;padding:120px 9% 80px;max-width:700px}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:12px;background:rgba(224,123,0,0.12);border:1px solid rgba(224,123,0,0.3);border-radius:3px;padding:8px 16px;margin-bottom:36px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);opacity:0;transform:translateY(14px);transition:opacity 0.7s,transform 0.7s}
+  .hero-eyebrow.visible{opacity:1;transform:translateY(0)}
+  .hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(52px,10vw,120px);font-weight:900;line-height:0.9;letter-spacing:0.02em;text-transform:uppercase;color:var(--text);margin-bottom:28px;opacity:0;transform:translateY(36px);transition:opacity 0.8s ease 0.15s,transform 0.8s ease 0.15s}
+  .hero-title.visible{opacity:1;transform:translateY(0)}
+  .hero-title .amber{color:var(--amber)}
+  .hero-title .outline{-webkit-text-stroke:2px var(--text);color:transparent}
+  body.light .hero-title .outline{-webkit-text-stroke:2px var(--text)}
+  .hero-body{font-size:17px;line-height:1.7;color:var(--text-muted);max-width:480px;margin-bottom:48px;opacity:0;transform:translateY(16px);transition:opacity 0.7s ease 0.3s,transform 0.7s ease 0.3s}
+  .hero-body.visible{opacity:1;transform:translateY(0)}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.45s}
+  .hero-ctas.visible{opacity:1}
+  .btn-amber{background:var(--amber);color:#fff;padding:15px 36px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-radius:4px;display:inline-block;transition:background 0.2s,transform 0.2s}
+  .btn-amber:hover{background:var(--amber-bright);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--text);padding:15px 36px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--mid);border-radius:4px;display:inline-block;transition:border-color 0.2s,color 0.2s,transform 0.2s}
+  .btn-outline:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+  .hero-facts{display:flex;gap:40px;margin-top:60px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.6s}
+  .hero-facts.visible{opacity:1}
+  .hf-label{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+  .hf-val{font-size:15px;font-weight:600;color:var(--text)}
+
+  /* SECTIONS */
+  section{padding:110px 9%}
+  @media(max-width:768px){section{padding:80px 20px}}
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.65s,transform 0.65s}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+  .label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+  .h2{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,5vw,64px);font-weight:900;line-height:1.05;letter-spacing:0.02em;text-transform:uppercase;color:var(--text);margin-bottom:20px}
+  .copy{font-size:16px;line-height:1.8;color:var(--text-muted)}
+  .amber-rule{width:44px;height:3px;background:var(--amber);border-radius:2px;margin:22px 0}
+
+  /* SERVICES */
+  .svc-bg{background:var(--steel-2)}
+  .svc-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:60px;max-width:1200px;margin-left:auto;margin-right:auto}
+  @media(max-width:768px){.svc-top{grid-template-columns:1fr;gap:24px;margin-bottom:40px}}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:0 auto}
+  @media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
+  .sc{background:var(--steel-3);padding:36px 30px;transition:background 0.3s;position:relative;overflow:hidden}
+  .sc::before{content:'';position:absolute;top:0;left:0;right:100%;height:3px;background:var(--amber);transition:right 0.4s}
+  .sc:hover::before{right:0}
+  .sc:hover{background:var(--mid)}
+  .sc-ic{font-size:28px;margin-bottom:18px;display:block}
+  .sc-nm{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+  .sc-tx{font-size:13px;line-height:1.65;color:var(--text-muted)}
+
+  /* SPECIALIST BAND */
+  .specialist{background:var(--amber);padding:80px 9%}
+  .spec-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  @media(max-width:900px){.spec-inner{grid-template-columns:1fr;gap:40px}}
+  .spec-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,6vw,72px);font-weight:900;line-height:0.95;text-transform:uppercase;color:#fff}
+  .spec-title em{display:block;font-style:normal;-webkit-text-stroke:2px #fff;color:transparent}
+  .spec-text p{font-size:17px;line-height:1.75;color:rgba(255,255,255,0.85);margin-bottom:16px}
+  .spec-badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:3px;padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#fff;margin-top:8px}
+
+  /* ABOUT */
+  .about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center}
+  @media(max-width:900px){.about-inner{grid-template-columns:1fr;gap:48px}}
+  .about-visual{background:var(--steel-3);border-radius:4px;padding:48px;display:flex;flex-direction:column;gap:20px}
+  .av-stat{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--mid)}
+  .av-stat:last-child{border-bottom:none}
+  .av-stat-label{font-size:14px;font-weight:500;color:var(--text-muted)}
+  .av-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--amber);letter-spacing:0.04em;text-transform:uppercase}
+  .check-list{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:14px}
+  .check-list li{font-size:15px;line-height:1.6;color:var(--text-muted);padding-left:26px;position:relative}
+  .check-list li::before{content:'✓';position:absolute;left:0;color:var(--amber);font-weight:700;font-size:16px}
+
+  /* STATS */
+  .stats-bg{background:var(--steel-2)}
+  .stats-row{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  @media(max-width:768px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--steel-3);padding:44px 32px;text-align:center}
+  .stat-n{font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:900;color:var(--amber);line-height:1;display:block;letter-spacing:0.02em}
+  .stat-l{font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:10px}
+
+  /* CONTACT */
+  .contact-bg{background:var(--steel)}
+  .contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+  @media(max-width:900px){.contact-inner{grid-template-columns:1fr;gap:48px}}
+  .contact-items{margin-top:36px;display:flex;flex-direction:column;gap:24px}
+  .ci{display:flex;gap:14px;align-items:flex-start}
+  .ci-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:8px}
+  .ci-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+  .ci-val{font-size:16px;font-weight:500;color:var(--text)}
+  .form{display:flex;flex-direction:column;gap:16px}
+  .fg{display:flex;flex-direction:column;gap:6px}
+  .fl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+  .fi{background:var(--steel-3);border:1px solid var(--mid);border-radius:4px;padding:12px 16px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+  .fi:focus{border-color:var(--amber)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.frow{grid-template-columns:1fr}}
+  .fi option{background:var(--steel-3)}
+  .fsub{background:var(--amber);color:#fff;border:none;padding:14px 32px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;cursor:pointer;align-self:flex-start;transition:background 0.25s,transform 0.2s}
+  .fsub:hover{background:var(--amber-bright);transform:translateY(-2px)}
+  footer{background:var(--steel-2);border-top:1px solid var(--mid);padding:36px 9%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+  @media(max-width:640px){footer{flex-direction:column;text-align:center}}
+  .fl-logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--text)}
+  .fl-logo span{color:var(--amber)}
+  .fl-mid{font-size:12px;color:var(--text-muted)}
+  .fl-credit{font-size:12px;color:var(--text-muted)}
+  .fl-credit a{color:var(--amber);text-decoration:none}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+<nav id="nav">
+  <a href="#" class="nav-logo">Union Street <span>Autos</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:01582459150" class="nav-cta">Call Now</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-bg-geo"></div>
+  <div class="hero-diag-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Bosch Car Service · Est. 30+ Years · Luton</div>
+    <h1 class="hero-title">
+      <span class="amber">Diesel</span><br>
+      <span class="outline">Specialists</span><br>
+      Luton
+    </h1>
+    <p class="hero-body">The only garage within 40 miles specialising in diesel injector and pump diagnostics. MOT, tyres, brakes, full servicing — all under one roof on Burr Street.</p>
+    <div class="hero-ctas">
+      <a href="tel:01582459150" class="btn-amber">Call 01582 459150</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+    <div class="hero-facts">
+      <div><div class="hf-label">Address</div><div class="hf-val">43-51 Burr Street, Luton</div></div>
+      <div><div class="hf-label">Specialist</div><div class="hf-val">Diesel Injectors &amp; Pumps</div></div>
+      <div><div class="hf-label">Accredited</div><div class="hf-val">Bosch Car Service</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="svc-bg" id="services">
+  <div class="svc-top">
+    <div>
+      <p class="label reveal">Services</p>
+      <h2 class="h2 reveal d1">Full Garage<br>Services</h2>
+    </div>
+    <p class="copy reveal d2">From specialist diesel work that no other garage in the area can match, to your everyday MOT and service — Union Street Autos covers it all.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="sc reveal">
+      <span class="sc-ic">⛽</span>
+      <h3 class="sc-nm">Diesel Diagnostics</h3>
+      <p class="sc-tx">Injector and pump diagnostics, repair and rebuild. The only specialist within 40 miles — trusted by garages across the region.</p>
+    </div>
+    <div class="sc reveal d1">
+      <span class="sc-ic">📋</span>
+      <h3 class="sc-nm">MOT Testing</h3>
+      <p class="sc-tx">Class 4, 5 and 7 MOT testing on site. Book online or call for a fast appointment.</p>
+    </div>
+    <div class="sc reveal d2">
+      <span class="sc-ic">🔧</span>
+      <h3 class="sc-nm">Full Servicing</h3>
+      <p class="sc-tx">Interim, full and major services for petrol and diesel vehicles. All makes and models.</p>
+    </div>
+    <div class="sc reveal d1">
+      <span class="sc-ic">🛞</span>
+      <h3 class="sc-nm">Tyres</h3>
+      <p class="sc-tx">Supply and fitting of all major brands. Balancing, alignment and TPMS reset.</p>
+    </div>
+    <div class="sc reveal d2">
+      <span class="sc-ic">🛑</span>
+      <h3 class="sc-nm">Brakes &amp; Clutches</h3>
+      <p class="sc-tx">Fast-fit brake pads, discs, drums and clutch replacement. Quoted before any work begins.</p>
+    </div>
+    <div class="sc reveal d3">
+      <span class="sc-ic">🔩</span>
+      <h3 class="sc-nm">General Repairs</h3>
+      <p class="sc-tx">Exhausts, suspension, electrical faults, timing belts — all vehicles welcomed.</p>
+    </div>
+  </div>
+</section>
+
+<div class="specialist reveal">
+  <div class="spec-inner">
+    <div>
+      <h3 class="spec-title">The Only<br>Diesel<br><em>Specialist</em><br>For 40 Miles</h3>
+    </div>
+    <div class="spec-text">
+      <p>Union Street Autos has been the go-to diesel specialist in Luton for nearly 30 years. Diesel injector and pump diagnostics, repair and rebuilding — work that most garages simply can't handle.</p>
+      <p>As a member of the Bosch Car Service Group, every repair is backed by the standards and technical expertise of one of the world's leading automotive brands.</p>
+      <div class="spec-badge">Bosch Car Service Member</div>
+    </div>
+  </div>
+</div>
+
+<section class="stats-bg">
+  <div class="stats-row">
+    <div class="stat reveal"><span class="stat-n" data-target="30">0</span><div class="stat-l">Years in Business</div></div>
+    <div class="stat reveal d1"><span class="stat-n">40mi</span><div class="stat-l">Diesel Specialist Radius</div></div>
+    <div class="stat reveal d2"><span class="stat-n">Bosch</span><div class="stat-l">Car Service Member</div></div>
+    <div class="stat reveal d3"><span class="stat-n">LU2</span><div class="stat-l">Burr Street, Luton</div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="about-visual">
+        <div class="av-stat"><span class="av-stat-label">Established</span><span class="av-stat-val">~1996</span></div>
+        <div class="av-stat"><span class="av-stat-label">Diesel Specialist Coverage</span><span class="av-stat-val">40 Miles</span></div>
+        <div class="av-stat"><span class="av-stat-label">Accreditation</span><span class="av-stat-val">Bosch</span></div>
+        <div class="av-stat"><span class="av-stat-label">Vehicles</span><span class="av-stat-val">Petrol + Diesel</span></div>
+        <div class="av-stat"><span class="av-stat-label">MOT Class</span><span class="av-stat-val">4, 5 &amp; 7</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="label reveal">About the Garage</p>
+      <h2 class="h2 reveal d1">Luton's Most<br>Trusted Garage</h2>
+      <div class="amber-rule reveal d2"></div>
+      <p class="copy reveal d2">Union Street Autos has been serving drivers across Luton and Bedfordshire for nearly three decades. What started as a diesel-focused workshop has grown into a full-service garage — but the diesel expertise remains unmatched anywhere in the region.</p>
+      <p class="copy reveal d2">Whether your car needs an MOT, a set of tyres, or a specialist diesel injector rebuild that other garages won't touch — this is the place.</p>
+      <ul class="check-list reveal d3">
+        <li>Only diesel injector and pump specialist within 40 miles</li>
+        <li>Bosch Car Service Group member — verified quality</li>
+        <li>All makes and models, petrol and diesel</li>
+        <li>Transparent quoting — no surprises on the bill</li>
+        <li>Knowledgeable, honest mechanics with decades of experience</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact-bg" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="label reveal">Contact</p>
+      <h2 class="h2 reveal d1">Book In or<br>Get a Quote</h2>
+      <p class="copy reveal d2" style="margin-top:20px;">Call to book your MOT, service or repair. All quotes are transparent — you'll know the cost before any work starts.</p>
+      <div class="contact-items">
+        <div class="ci reveal d2"><div class="ci-dot"></div><div><div class="ci-label">Phone</div><div class="ci-val"><a href="tel:01582459150" style="color:var(--text);text-decoration:none;">01582 459150</a></div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Address</div><div class="ci-val">43-51 Burr Street, Luton, LU2 0HN</div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Specialisms</div><div class="ci-val">Diesel Injectors · Pumps · MOT · Tyres · Servicing</div></div></div>
+        <div class="ci reveal d3"><div class="ci-dot"></div><div><div class="ci-label">Accredited</div><div class="ci-val">Bosch Car Service Group Member</div></div></div>
+      </div>
+    </div>
+    <div>
+      <form class="form reveal d1" onsubmit="return false;">
+        <div class="frow">
+          <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" placeholder="John"></div>
+          <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Smith"></div>
+        </div>
+        <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel" placeholder="07700 000000"></div>
+        <div class="fg"><label class="fl">Vehicle (make / model)</label><input class="fi" type="text" placeholder="e.g. Ford Transit 2019 Diesel"></div>
+        <div class="fg"><label class="fl">Service Required</label>
+          <select class="fi">
+            <option value="">Select...</option>
+            <option>Diesel Diagnostics / Repair</option>
+            <option>MOT</option>
+            <option>Full Service</option>
+            <option>Tyres</option>
+            <option>Brakes / Clutch</option>
+            <option>General Repair</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Notes</label><textarea class="fi" rows="3" placeholder="Any details about the fault or work needed..."></textarea></div>
+        <button type="submit" class="fsub">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl-logo">Union Street <span>Autos</span></div>
+  <p class="fl-mid">43-51 Burr Street · Luton · LU2 0HN · 01582 459150</p>
+  <p class="fl-credit">Designed by <a href="https://shanebell.dev" target="_blank">Shane Bell</a></p>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  ['hero-eyebrow','hero-title','hero-body','hero-ctas','hero-facts'].forEach(c=>{const el=document.querySelector('.'+c);if(el)setTimeout(()=>el.classList.add('visible'),100)});
+  const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=parseInt(el.getAttribute('data-target'));if(!t)return;const dur=1600,s=performance.now();const tick=n=>{const p=Math.min((n-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(ease*t);if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick);cObs.unobserve(el)})},{threshold:0.5});
+  document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
+</script>
+</body>
+</html>

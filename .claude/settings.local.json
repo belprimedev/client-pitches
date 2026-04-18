@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -f .git/HEAD.lock .git/index.lock .git/packed-refs.lock)",
+      "Bash(rm -f .git/refs/heads/*.lock)",
+      "Bash(git branch:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

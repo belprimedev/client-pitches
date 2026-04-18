@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CG Painting Services — Luton Painter & Decorator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --forest:#1F4E35;--forest-light:#2D7050;--sage:#7BA896;
+    --cream:#F8F4ED;--warm:#EDE7DB;--dark:#111810;
+    --dark-2:#18221A;--dark-3:#1F2D22;--mid:#2E4232;
+    --text:#EFF5EE;--text-muted:#7E9E87;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--dark);color:var(--text);font-family:'Instrument Sans',sans-serif;font-weight:300;overflow-x:hidden}
+  .theme-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:8px 14px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s}
+  .theme-toggle:hover{border-color:var(--sage);color:var(--sage)}
+  body.light{--dark:#F8F4ED;--dark-2:#EDE7DB;--dark-3:#E3DAC8;--mid:#C8BBA0;--text:#111810;--text-muted:#4A6650}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 52px;height:70px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
+  nav.scrolled{background:rgba(17,24,16,0.97);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(123,168,150,0.2)}
+  body.light nav.scrolled{background:rgba(248,244,237,0.97)}
+  .nav-logo{font-family:'Libre Baskerville',serif;font-size:18px;font-weight:400;color:var(--text);text-decoration:none;letter-spacing:0.02em}
+  .nav-logo span{color:var(--sage)}
+  .nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+  .nav-links a{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{background:var(--forest)!important;color:#fff!important;padding:10px 22px;border-radius:4px;font-weight:600!important}
+  .nav-cta:hover{background:var(--forest-light)!important}
+  @media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}}
+
+  /* HERO */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:var(--dark)}
+  @media(max-width:900px){.hero{grid-template-columns:1fr}}
+  .hero-left{padding:120px 9% 80px;display:flex;flex-direction:column;justify-content:center}
+  .hero-right{background:var(--dark-2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  @media(max-width:900px){.hero-right{display:none}}
+  .hr-pattern{position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(123,168,150,0.04) 20px,rgba(123,168,150,0.04) 21px)}
+  .hr-swatch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:100%;height:100%;position:relative;z-index:1}
+  .swatch{height:100%;transition:transform 0.6s}
+  .swatch:hover{transform:scale(1.05)}
+  .s1{background:#1F4E35}.s2{background:#2D7050}.s3{background:#7BA896}
+  .s4{background:#EDE7DB}.s5{background:#C8BBA0}.s6{background:#7E5A3A}
+  .hero-tag{position:absolute;bottom:32px;left:32px;background:rgba(17,24,16,0.85);backdrop-filter:blur(8px);padding:16px 22px;border-radius:4px;z-index:2}
+  .tag-line1{font-family:'Libre Baskerville',serif;font-size:18px;color:var(--text);font-style:italic}
+  .tag-line2{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--sage);margin-top:4px}
+
+  .hero-sup{font-size:11px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--sage);margin-bottom:28px;opacity:0;transform:translateY(14px);transition:opacity 0.7s,transform 0.7s}
+  .hero-sup.visible{opacity:1;transform:translateY(0)}
+  .hero-title{font-family:'Libre Baskerville',serif;font-size:clamp(44px,7vw,80px);font-weight:700;line-height:1.05;color:var(--text);margin-bottom:24px;opacity:0;transform:translateY(30px);transition:opacity 0.8s ease 0.15s,transform 0.8s ease 0.15s}
+  .hero-title.visible{opacity:1;transform:translateY(0)}
+  .hero-title em{font-style:italic;font-weight:400;color:var(--sage)}
+  .hero-body{font-size:17px;line-height:1.75;color:var(--text-muted);max-width:440px;margin-bottom:48px;opacity:0;transform:translateY(16px);transition:opacity 0.7s ease 0.3s,transform 0.7s ease 0.3s}
+  .hero-body.visible{opacity:1;transform:translateY(0)}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.45s}
+  .hero-ctas.visible{opacity:1}
+  .btn-forest{background:var(--forest);color:#fff;padding:15px 36px;font-size:14px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border-radius:4px;display:inline-block;transition:background 0.2s,transform 0.2s}
+  .btn-forest:hover{background:var(--forest-light);transform:translateY(-2px)}
+  .btn-outline{background:transparent;color:var(--text);padding:15px 36px;font-size:14px;font-weight:500;letter-spacing:0.04em;text-decoration:none;border:1px solid var(--mid);border-radius:4px;display:inline-block;transition:border-color 0.2s,color 0.2s,transform 0.2s}
+  .btn-outline:hover{border-color:var(--sage);color:var(--sage);transform:translateY(-2px)}
+  .hero-qual{margin-top:64px;display:flex;gap:28px;flex-wrap:wrap;opacity:0;transition:opacity 0.7s ease 0.6s}
+  .hero-qual.visible{opacity:1}
+  .qual-badge{font-size:12px;font-weight:500;color:var(--text-muted);padding-left:18px;position:relative}
+  .qual-badge::before{content:'✓';position:absolute;left:0;color:var(--sage);font-weight:700}
+
+  /* SECTIONS */
+  section{padding:110px 9%}
+  @media(max-width:768px){section{padding:80px 20px}}
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.65s,transform 0.65s}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+  .label{font-size:11px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--sage);margin-bottom:14px}
+  .h2{font-family:'Libre Baskerville',serif;font-size:clamp(34px,5vw,56px);font-weight:700;line-height:1.1;color:var(--text);margin-bottom:20px}
+  .h2 em{font-style:italic;font-weight:400;color:var(--sage)}
+  .copy{font-size:16px;line-height:1.8;color:var(--text-muted)}
+  .sage-rule{width:40px;height:2px;background:var(--sage);margin:22px 0;border-radius:2px}
+
+  /* SERVICES */
+  .svc-bg{background:var(--dark-2)}
+  .svc-top{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:60px;max-width:1200px;margin-left:auto;margin-right:auto}
+  @media(max-width:768px){.svc-top{grid-template-columns:1fr;gap:24px;margin-bottom:40px}}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:0 auto}
+  @media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.svc-grid{grid-template-columns:1fr}}
+  .sc{background:var(--dark-3);padding:36px 30px;transition:background 0.3s;position:relative;overflow:hidden}
+  .sc::before{content:'';position:absolute;top:0;right:0;bottom:0;width:2px;background:var(--sage);transform:scaleY(0);transform-origin:bottom;transition:transform 0.35s}
+  .sc:hover::before{transform:scaleY(1)}
+  .sc:hover{background:var(--mid)}
+  .sc-ic{font-size:26px;margin-bottom:18px;display:block}
+  .sc-nm{font-family:'Libre Baskerville',serif;font-size:18px;font-weight:400;color:var(--text);margin-bottom:8px}
+  .sc-tx{font-size:13px;line-height:1.65;color:var(--text-muted)}
+
+  /* ABOUT */
+  .about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center}
+  @media(max-width:900px){.about-inner{grid-template-columns:1fr;gap:48px}}
+  .about-visual{aspect-ratio:3/4;background:var(--dark-3);border-radius:4px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .about-visual::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(31,78,53,0.3),transparent 70%)}
+  .av-monogram{font-family:'Libre Baskerville',serif;font-size:120px;font-weight:700;color:var(--sage);opacity:0.15;position:relative;z-index:1}
+  .av-badge{position:absolute;bottom:28px;right:28px;background:var(--forest);padding:16px 20px;border-radius:4px;text-align:center}
+  .av-badge-num{font-family:'Libre Baskerville',serif;font-size:32px;font-weight:700;color:#fff;line-height:1;display:block}
+  .av-badge-label{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+  .about-text .copy{margin-bottom:16px}
+  .qual-list{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:12px}
+  .qual-list li{font-size:14px;line-height:1.6;color:var(--text-muted);padding-left:22px;position:relative}
+  .qual-list li::before{content:'✓';position:absolute;left:0;color:var(--sage);font-weight:700}
+
+  /* CONTACT */
+  .contact-bg{background:var(--dark-2)}
+  .contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px}
+  @media(max-width:900px){.contact-inner{grid-template-columns:1fr;gap:48px}}
+  .contact-items{margin-top:40px;display:flex;flex-direction:column;gap:24px}
+  .ci{display:flex;gap:14px;align-items:flex-start}
+  .ci-line{width:2px;background:var(--sage);border-radius:2px;flex-shrink:0;margin-top:2px;align-self:stretch;min-height:40px}
+  .ci-label{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--sage);margin-bottom:2px}
+  .ci-val{font-size:16px;font-weight:500;color:var(--text)}
+  .form{display:flex;flex-direction:column;gap:16px}
+  .fg{display:flex;flex-direction:column;gap:6px}
+  .fl{font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted)}
+  .fi{background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:12px 16px;color:var(--text);font-family:'Instrument Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+  .fi:focus{border-color:var(--sage)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.frow{grid-template-columns:1fr}}
+  .fi option{background:var(--dark-3)}
+  .fsub{background:var(--forest);color:#fff;border:none;padding:14px 32px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;border-radius:4px;cursor:pointer;align-self:flex-start;transition:background 0.25s,transform 0.2s}
+  .fsub:hover{background:var(--forest-light);transform:translateY(-2px)}
+  footer{background:var(--dark);border-top:1px solid var(--mid);padding:36px 9%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+  @media(max-width:640px){footer{flex-direction:column;text-align:center}}
+  .fl-logo{font-family:'Libre Baskerville',serif;font-size:18px;font-weight:400;color:var(--text)}
+  .fl-logo span{color:var(--sage)}
+  .fl-mid{font-size:12px;color:var(--text-muted)}
+  .fl-credit{font-size:12px;color:var(--text-muted)}
+  .fl-credit a{color:var(--sage);text-decoration:none}
+</style>
+</head>
+<body>
+<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+<nav id="nav">
+  <a href="#" class="nav-logo"><span>CG</span> Painting Services</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="tel:07539800559" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<div class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-sup">Luton · LU2 · Painter &amp; Decorator</p>
+    <h1 class="hero-title">CG Painting<br><em>Services</em></h1>
+    <p class="hero-body">Professional painting and decorating across Luton and surrounding areas. Interior, exterior, tiling, and more — delivered with care and precision every time.</p>
+    <div class="hero-ctas">
+      <a href="tel:07539800559" class="btn-forest">Call 07539 800559</a>
+      <a href="#services" class="btn-outline">View Services</a>
+    </div>
+    <div class="hero-qual">
+      <span class="qual-badge">CITB Certified</span>
+      <span class="qual-badge">Interior &amp; Exterior</span>
+      <span class="qual-badge">Residential &amp; Commercial</span>
+      <span class="qual-badge">Fully Insured</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hr-pattern"></div>
+    <div class="hr-swatch-grid">
+      <div class="swatch s1"></div>
+      <div class="swatch s2"></div>
+      <div class="swatch s3"></div>
+      <div class="swatch s4"></div>
+      <div class="swatch s5"></div>
+      <div class="swatch s6"></div>
+    </div>
+    <div class="hero-tag">
+      <div class="tag-line1">Colour chosen. Work done right.</div>
+      <div class="tag-line2">Luton's Trusted Decorator</div>
+    </div>
+  </div>
+</div>
+
+<section class="svc-bg" id="services">
+  <div class="svc-top">
+    <div>
+      <p class="label reveal">Services</p>
+      <h2 class="h2 reveal d1">Every Surface.<br><em>Every Finish.</em></h2>
+    </div>
+    <p class="copy reveal d2">From freshening up a single room to full commercial contracts — CG Painting brings professional results with minimal disruption to you or your property.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="sc reveal"><span class="sc-ic">🖌</span><h3 class="sc-nm">Interior Decorating</h3><p class="sc-tx">Full interior painting and wallpapering. Smooth finishes, sharp edges, spotless cleanup.</p></div>
+    <div class="sc reveal d1"><span class="sc-ic">🏠</span><h3 class="sc-nm">Exterior Painting</h3><p class="sc-tx">Weather-resistant exterior painting and masonry coating. Prep, prime, finish — done properly.</p></div>
+    <div class="sc reveal d2"><span class="sc-ic">🪣</span><h3 class="sc-nm">Coving &amp; Cornices</h3><p class="sc-tx">Coving and cornice fitting and finishing. Artex work and surface preparation included.</p></div>
+    <div class="sc reveal d1"><span class="sc-ic">🔲</span><h3 class="sc-nm">Tiling</h3><p class="sc-tx">Bathroom, kitchen and floor tiling. All formats and patterns — laid with precision.</p></div>
+    <div class="sc reveal d2"><span class="sc-ic">🏢</span><h3 class="sc-nm">Commercial Painting</h3><p class="sc-tx">Office, retail and industrial painting. Scheduled to cause minimum disruption to your business.</p></div>
+    <div class="sc reveal d3"><span class="sc-ic">🏡</span><h3 class="sc-nm">Home Staging</h3><p class="sc-tx">Refresh your home before sale or letting. Neutral, appealing finishes that buyers love.</p></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="about-visual">
+        <div class="av-monogram">CG</div>
+        <div class="av-badge">
+          <span class="av-badge-num">LU2</span>
+          <span class="av-badge-label">Luton Based</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="label reveal">About CG</p>
+      <h2 class="h2 reveal d1">Professional.<br>Precise. <em>Tidy.</em></h2>
+      <div class="sage-rule reveal d2"></div>
+      <p class="copy reveal d2">CG Painting Services is a fully qualified, CITB-certified painting and decorating business based in Luton. Every job is approached with the same standard — proper preparation, quality materials, and a finish you'd be happy to show off.</p>
+      <p class="copy reveal d2">We work with additional staff for larger projects, so you never wait longer than you need to. Professional, clean, and tidy on every job — from a single room to a full commercial contract.</p>
+      <ul class="qual-list reveal d3">
+        <li>CITB Certificate — fully qualified painter and decorator</li>
+        <li>Interior and exterior work, all surfaces and finishes</li>
+        <li>Competitive rates with no compromise on quality</li>
+        <li>Always professional, clean and tidy on site</li>
+        <li>Additional staff available for larger or time-sensitive projects</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact-bg" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="label reveal">Contact</p>
+      <h2 class="h2 reveal d1">Get a Free<br><em>Quote</em></h2>
+      <p class="copy reveal d2" style="margin-top:20px;">Call or use the form below and CG will get back to you promptly. All quotes are free with no obligation.</p>
+      <div class="contact-items">
+        <div class="ci reveal d2"><div class="ci-line"></div><div><div class="ci-label">Phone</div><div class="ci-val"><a href="tel:07539800559" style="color:var(--text);text-decoration:none;">07539 800559</a></div></div></div>
+        <div class="ci reveal d3"><div class="ci-line"></div><div><div class="ci-label">Address</div><div class="ci-val">40 The Magpies, Luton, LU2 7XT</div></div></div>
+        <div class="ci reveal d3"><div class="ci-line"></div><div><div class="ci-label">Coverage</div><div class="ci-val">Luton and surrounding areas</div></div></div>
+      </div>
+    </div>
+    <div>
+      <form class="form reveal d1" onsubmit="return false;">
+        <div class="frow">
+          <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" placeholder="John"></div>
+          <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Smith"></div>
+        </div>
+        <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel" placeholder="07700 000000"></div>
+        <div class="fg"><label class="fl">Job Type</label>
+          <select class="fi">
+            <option value="">Select...</option>
+            <option>Interior Decorating</option>
+            <option>Exterior Painting</option>
+            <option>Coving / Cornices</option>
+            <option>Tiling</option>
+            <option>Commercial Painting</option>
+            <option>Home Staging</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Property Type</label>
+          <select class="fi">
+            <option value="">Select...</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Industrial</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Describe the job</label><textarea class="fi" rows="3" placeholder="Rooms, surfaces, timescale..."></textarea></div>
+        <button type="submit" class="fsub">Request Quote</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl-logo"><span>CG</span> Painting Services</div>
+  <p class="fl-mid">40 The Magpies · Luton · LU2 7XT · 07539 800559</p>
+  <p class="fl-credit">Designed by <a href="https://shanebell.dev" target="_blank">Shane Bell</a></p>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  ['hero-sup','hero-title','hero-body','hero-ctas','hero-qual'].forEach(c=>{const el=document.querySelector('.'+c);if(el)setTimeout(()=>el.classList.add('visible'),100)});
+</script>
+</body>
+</html>
