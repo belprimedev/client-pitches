@@ -34,10 +34,6 @@
 
   /* ── DARK MODE TOGGLE ── */
   .theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
     background: var(--dark-3);
     border: 1px solid var(--mid);
     border-radius: 50px;
@@ -680,7 +676,7 @@
 </head>
 <body>
 
-<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+
 
 <nav id="nav">
   <a href="#" class="nav-logo">LU Barbers</a>
@@ -689,6 +685,8 @@
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="tel:01582727694" class="nav-cta">Call Now</a></li>
+  
+    <li><button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button></li>
   </ul>
 </nav>
 

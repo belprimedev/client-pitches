@@ -17,7 +17,7 @@
   }
   html{scroll-behavior:smooth}
   body{background:var(--dark);color:var(--text);font-family:'Instrument Sans',sans-serif;font-weight:300;overflow-x:hidden}
-  .theme-toggle{position:fixed;top:20px;right:20px;z-index:1000;background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:8px 14px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s}
+  .theme-toggle{background:var(--dark-3);border:1px solid var(--mid);border-radius:4px;padding:8px 14px;cursor:pointer;font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s}
   .theme-toggle:hover{border-color:var(--sage);color:var(--sage)}
   body.light{--dark:#F8F4ED;--dark-2:#EDE7DB;--dark-3:#E3DAC8;--mid:#C8BBA0;--text:#111810;--text-muted:#4A6650}
   nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 52px;height:70px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,box-shadow 0.4s}
@@ -136,7 +136,7 @@
 </style>
 </head>
 <body>
-<button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button>
+
 <nav id="nav">
   <a href="#" class="nav-logo"><span>CG</span> Painting Services</a>
   <ul class="nav-links">
@@ -144,6 +144,8 @@
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="tel:07539800559" class="nav-cta">Get a Quote</a></li>
+  
+    <li><button class="theme-toggle" onclick="document.body.classList.toggle('light')">Light / Dark</button></li>
   </ul>
 </nav>
 
